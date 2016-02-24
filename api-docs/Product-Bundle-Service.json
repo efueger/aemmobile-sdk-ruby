@@ -1,0 +1,313 @@
+{
+  "apiVersion": "2.0",
+  "swaggerVersion": "1.2",
+  "basePath": "http://localhost/release.2015.6",
+  "resourcePath": "/bundles",
+  "apis": [
+    {
+      "path": "/applications/{applicationId}/bundles/{bundleId}",
+      "operations": [
+        {
+          "method": "PUT",
+          "summary": "Creates or updates a product bundle",
+          "notes": "For a given application, creates or overwrites the specified product bundle.",
+          "type": "ProductBundle",
+          "nickname": "saveProductBundle",
+          "produces": [
+            "application/vnd.adobe.dps.productbundle+json",
+            "application/json"
+          ],
+          "consumes": [
+            "application/vnd.adobe.dps.productbundle+json",
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "name": "applicationId",
+              "description": "The application ID the product bundle belongs to. Value provided by the API gateway.",
+              "required": true,
+              "type": "string",
+              "paramType": "path",
+              "allowMultiple": false
+            },
+            {
+              "name": "bundleId",
+              "description": "The ID of the product bundle to save. The value is matched against product IDs of in-app purchases.",
+              "required": true,
+              "type": "string",
+              "paramType": "path",
+              "allowMultiple": false
+            },
+            {
+              "name": "body",
+              "description": "The product bundle to save. If the id property is set, its value needs to match the value of bundleId in the path.",
+              "required": true,
+              "type": "ProductBundle",
+              "paramType": "body",
+              "allowMultiple": false
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 200,
+              "message": "Successfully saved the bundle."
+            },
+            {
+              "code": 400,
+              "message": "Some parameters did not pass validation. For a malformed body, the code is \"invalidRequest\". Semantic errors can result in \"invalidParameter\" or \"missingParameter\" codes.",
+              "responseModel": "ErrorResponse"
+            },
+            {
+              "code": 406,
+              "message": "An invalid Accept header was provided. Use Accept: application/vnd.adobe.dps.productbundle+json.",
+              "responseModel": "ErrorResponse"
+            },
+            {
+              "code": 415,
+              "message": "An invalid Content-Type header was provided for the body. Use Accept: application/vnd.adobe.dps.productbundle+json.",
+              "responseModel": "ErrorResponse"
+            }
+          ]
+        },
+        {
+          "method": "DELETE",
+          "summary": "Deletes a product bundle",
+          "notes": "For a given application, deletes a product bundle with a specific ID.",
+          "type": "void",
+          "nickname": "deleteProductBundle",
+          "parameters": [
+            {
+              "name": "applicationId",
+              "description": "The application ID the product bundle belongs to. Value provided by the API gateway.",
+              "required": true,
+              "type": "string",
+              "paramType": "path",
+              "allowMultiple": false
+            },
+            {
+              "name": "bundleId",
+              "description": "The ID of the product bundle to delete.",
+              "required": true,
+              "type": "string",
+              "paramType": "path",
+              "allowMultiple": false
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 200,
+              "message": "Successfully deleted the bundle, or the bundle didn't exist in the first place."
+            },
+            {
+              "code": 400,
+              "message": "Some parameters did not pass validation. Error code could be \"invalidParameter\" or \"missingParameter\".",
+              "responseModel": "ErrorResponse"
+            }
+          ]
+        },
+        {
+          "method": "GET",
+          "summary": "Returns a product bundle",
+          "notes": "For a given application, returns a specific product bundle.",
+          "type": "ProductBundle",
+          "nickname": "getProductBundle",
+          "produces": [
+            "application/vnd.adobe.dps.productbundle+json",
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "name": "applicationId",
+              "description": "The application ID the product bundle belongs to. Value provided by the API gateway.",
+              "required": true,
+              "type": "string",
+              "paramType": "path",
+              "allowMultiple": false
+            },
+            {
+              "name": "bundleId",
+              "description": "The ID of the product bundle to return.",
+              "required": true,
+              "type": "string",
+              "paramType": "path",
+              "allowMultiple": false
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 200,
+              "message": "Successfully retrieved the bundle."
+            },
+            {
+              "code": 400,
+              "message": "Some parameters did not pass validation. Error code could be \"invalidParameter\" or \"missingParameter\".",
+              "responseModel": "ErrorResponse"
+            },
+            {
+              "code": 406,
+              "message": "An invalid Accept header was provided. Use Accept: application/vnd.adobe.dps.productbundle+json.",
+              "responseModel": "ErrorResponse"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/applications/{applicationId}/bundles",
+      "operations": [
+        {
+          "method": "GET",
+          "summary": "Returns a list of product bundles, optionally filtered by tags",
+          "notes": "For a given application, returns a list of stored product bundles, optionally filtered by tags.",
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "ProductBundle"
+          },
+          "nickname": "getProductBundles",
+          "produces": [
+            "application/vnd.adobe.dps.productbundles+json",
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "name": "applicationId",
+              "description": "The application ID the product bundle belongs to. Value provided by the API gateway.",
+              "required": true,
+              "type": "string",
+              "paramType": "path",
+              "allowMultiple": false
+            },
+            {
+              "name": "tag",
+              "description": "Allows filtering by tags (only product bundles with all specified tags will be returned).",
+              "required": false,
+              "type": "array",
+              "uniqueItems": true,
+              "items": {
+                "type": "string"
+              },
+              "paramType": "query",
+              "allowMultiple": false
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 200,
+              "message": "Successfully retrieved a list of bundles for the provided applicationId."
+            },
+            {
+              "code": 400,
+              "message": "Some parameters did not pass validation. Error code could be \"invalidParameter\" or \"missingParameter\".",
+              "responseModel": "ErrorResponse"
+            },
+            {
+              "code": 406,
+              "message": "An invalid Accept header was provided. Use Accept: application/vnd.adobe.dps.productbundles+json.",
+              "responseModel": "ErrorResponse"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "models": {
+    "ProductBundle": {
+      "id": "ProductBundle",
+      "description": "",
+      "required": [
+        "label",
+        "description",
+        "bundleType",
+        "strategy",
+        "id"
+      ],
+      "properties": {
+        "label": {
+          "type": "string",
+          "description": "Describes the product with a short phrase (up to 100 characters)"
+        },
+        "description": {
+          "type": "string",
+          "description": "Describes the product in long form (up to 1000 characters)"
+        },
+        "tags": {
+          "type": "array",
+          "uniqueItems": true,
+          "description": "Groups related product bundles",
+          "items": {
+            "type": "string"
+          }
+        },
+        "bundleType": {
+          "$ref": "BundleType",
+          "description": "Currently, the only available bundle type is a subscription",
+          "enum": [
+            "SUBSCRIPTION"
+          ]
+        },
+        "subscriptionType": {
+          "$ref": "SubscriptionType",
+          "description": "Determines how to generate entitlements from a subscription with the same ID as the bundle ID, using the start and end date of a subscription purchase",
+          "enum": [
+            "STANDARD",
+            "ALL_ACCESS"
+          ]
+        },
+        "availabilityDate": {
+          "type": "string",
+          "format": "date-time",
+          "description": "By this date, the bundle should be available for purchase"
+        },
+        "availabilityDateTimezone": {
+          "type": "string",
+          "description": "The timezone used when setting the availability date."
+        },
+        "strategy": {
+          "$ref": "Strategy",
+          "description": "How the bundle determines which products belong in it",
+          "enum": [
+            "*"
+          ]
+        },
+        "relationships": {
+          "$ref": "Map[string,ProductBundleRelationship]",
+          "description": "Allows expressing explicit relationships to distinct products"
+        },
+        "id": {
+          "type": "string",
+          "description": "An identifier that is matched against product IDs in receipts"
+        }
+      }
+    },
+    "ErrorResponse": {
+      "id": "ErrorResponse",
+      "description": "",
+      "required": [
+        "code",
+        "message"
+      ],
+      "properties": {
+        "code": {
+          "$ref": "ErrorStatus",
+          "description": "A short, constant string indicating the nature of the error",
+          "enum": [
+            "httpError",
+            "internalError",
+            "invalidParameter",
+            "invalidRequest",
+            "missingParameter",
+            "resourceNotFound",
+            "serviceTemporarilyUnavailable",
+            "updateResourceConflict",
+            "unexpectedValue"
+          ]
+        },
+        "message": {
+          "type": "string",
+          "description": "A human-readable explanation of the error, providing more details"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,879 @@
+{
+  "apiVersion": "2.0",
+  "swaggerVersion": "1.2",
+  "basePath": "http://localhost/release.2015.6",
+  "resourcePath": "/PushNotification",
+  "apis": [
+    {
+      "path": "/notifications",
+      "operations": [
+        {
+          "method": "POST",
+          "summary": "Send a notification",
+          "notes": "Creates a Push Notification from multipart form data.  Possible errorCode returned:   INVALID_BACKGROUND = 2 can't have a background notification with a text message. Remove the text message,  INVALID_BADGE = 3  If message has a badge, it must be a background notification,  INVALID_MESSAGE =  4 No text message or background download,  INVALID_BACK_SOUND = 5 Background download with sound isn't allowed,  CANNOT_GET_DEVICES = 6 Can't get list of device based on tenant Id,  CERTIFICATE_NOT_FOUND = 7 unable to retrieve the proper push notification,  CERTIFICATE_EXPIRED = 8 push certificate has expired,  INVALID_NOTIFICATION_ID = 9 notificationID passed in to status or cancel API's invalid,  UNAUTHORIZED = 10 Can't touch this :),  MISSING_BACKGROUND = 11 Error when trying to find background issue,  NO_DEVICES_IN_FILE = 12 Error when client uploaded file contains no valid token,  NO_TARGET_DIMENSIONS = 13 Background download issue has no dimensions. No devices will be considered,  NO_VALID_DEVICES = 14 there were no valid devices found for this request. No action was needed,  INVALID_SEGMENT_DEFINITION = 15 the supplied segment definition JSON was invalid,  DEVICE_FILE_TOO_LARGE = 16 The supplied file of devices was too large,  CERTIFICATE_REVOKED = 17 push certificate was revoked,  PAYLOAD_SIZE_EXCEEDED = 18 payload exceeds the permitted max size,  PAYLOAD_EMPTY = 19 payload is empty,  DOWNSTREAM_SERVER_ERROR = 20 a server we depend on is unreachable",
+          "type": "statusResponse",
+          "nickname": "notification",
+          "produces": [
+            "application/json"
+          ],
+          "consumes": [
+            "multipart/form-data"
+          ],
+          "parameters": [
+            {
+              "name": "x-tenant-id",
+              "description": "tenant Id",
+              "required": true,
+              "type": "string",
+              "paramType": "header",
+              "allowMultiple": false
+            },
+            {
+              "name": "x-notification-client-id",
+              "description": "An identifier of the application (client) that is sending the notification.",
+              "required": true,
+              "type": "string",
+              "paramType": "header",
+              "allowMultiple": false
+            },
+            {
+              "name": "push",
+              "description": "A JSON parameter that includes information about the notification (\"push\").<br><br> <p style='font-size:16px; color:#005500;'>push.schedule</p> - the scheduled sending time for the notification.  If less then &quot;now&quot; the notification will be sent immediately <br><br><p style='font-size:16px; color:#005500;'>push.devices</p> - If the request includes a list of devices to send the notification to, this will include that list.<br><br>       <p style='font-size:16px; color:#005500;'>push.message</p> - The text to send with the notification.  If this value is set, the notification will be a text-only notification.<br><br><p style='font-size:16px; color:#005500;'>push.idForBackground</p> - The id to do the background download update on.<br><br>       <p style='font-size:16px; color:#005500;'>push.operatingSystemSpecifier</p> - A comma separated list of what operating systems to send the notification to.  e.g. ios,android,windows<br><br><p style='font-size:16px; color:#005500;'>push.iosData</p> - iOS specific data.<br><br><p style='font-size:16px; color:#005500;'>&nbsp&nbsp&nbsp&nbsp .iosData.isProduction</p> - A boolean.  true for production devices, false for sandbox.<br><br><p style='font-size:16px; color:#005500;'>&nbsp&nbsp&nbsp&nbsp .iosData.badge</p> - A String.  Integer value to set the iOS application badge.<br><br><p style='font-size:16px; color:#005500;'>&nbsp&nbsp&nbsp&nbsp .iosData.bundleId</p> - A String.  The bundleId of the target application.<br><br><p style='font-size:16px; color:#005500;'>push.androidData</p> - Android specific data.<br><br><p style='font-size:16px; color:#005500;'>&nbsp&nbsp&nbsp&nbsp .androidData.collapseKey</p> - A boolean.  Whether to collapse notifications on the device.<br><br><p style='font-size:16px; color:#005500;'>&nbsp&nbsp&nbsp&nbsp .androidData.projectNumber</p> - The Android application identifier to send the notifications to.<br><br><p style='font-size:16px; color:#005500;'>push.windowsData</p> - Windows specific data.<br><br><p style='font-size:16px; color:#005500;'>&nbsp&nbsp&nbsp&nbsp .windowsData.nameIdentity</p> - The Windows application identifier to send the notifications to.<br><br><p style='font-size:16px; color:#005500;'>push.omnitureData</p> - Data specific to Omniture analytics logging performed on this notification.<br><br><p style='font-size:16px; color:#005500;'>&nbsp&nbsp&nbsp&nbsp .omnitureData.publicationTitle</p> - A String.  The Omniture publication title.<br><br><p style='font-size:16px; color:#005500;'>&nbsp&nbsp&nbsp&nbsp .omnitureData.reportSuiteId</p> - A String.  The Omniture reportSuite Id.<br><br><p style='font-size:16px; color:#005500;'>&nbsp&nbsp&nbsp&nbsp .omnitureData.applicationId</p> - A String.  The Omniture application Id.<br><br><p style='font-size:16px; color:#005500;'>push.customData</p> - Any custom Json data that is needed by the application.  This data will be included in the notification body and can be read and acted on by the application when received.<br><br>",
+              "required": true,
+              "type": "RPSRequest",
+              "paramType": "body",
+              "allowMultiple": false
+            },
+            {
+              "name": "deviceFile",
+              "description": "If the request includes a file of devices to send the notification to, this will also be set.",
+              "required": false,
+              "type": "file",
+              "paramType": "body",
+              "allowMultiple": false
+            },
+            {
+              "name": "deviceFile",
+              "description": "If the request includes a file of devices to send the notification to, this will be set (\"deviceFile\").",
+              "required": false,
+              "type": "FormDataContentDisposition",
+              "paramType": "body",
+              "allowMultiple": false
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 200,
+              "message": "OK - returns the newly minted notification.",
+              "responseModel": "statusResponse"
+            },
+            {
+              "code": 400,
+              "message": "Bad Request - if any of the required parameters are missing or invalid.",
+              "responseModel": "BadRequestException"
+            },
+            {
+              "code": 403,
+              "message": "Forbidden - if requester does not have permission to perform this operation.",
+              "responseModel": "Response"
+            },
+            {
+              "code": 503,
+              "message": "Service Unavailable - if any of the third party services are unavailable.",
+              "responseModel": "Response"
+            }
+          ]
+        },
+        {
+          "method": "GET",
+          "summary": "Get a list of notification requests during a specified time period",
+          "notes": "Returns a list of notifications within a specified time period  Possible errorCode returned:   INVALID_BACKGROUND = 2 can't have a background notification with a text message. Remove the text message  INVALID_BADGE = 3  If message has a badge, it must be a background notification  INVALID_MESSAGE =  4 No text message or background download  INVALID_BACK_SOUND = 5 Background download with sound isn't allowed  CANNOT_GET_DEVICES = 6 Can't get list of device based on tenant Id  CERTIFICATE_NOT_FOUND = 7 unable to retrieve the proper push notification  CERTIFICATE_EXPIRED = 8 push certificate has expired  INVALID_NOTIFICATION_ID = 9 notificationID passed in to status or cancel API's invalid  UNAUTHORIZED = 10 Can't touch this :)\t  MISSING_BACKGROUND = 11 Error when trying to find background issu  NO_DEVICES_IN_FILE = 12 Error when client uploaded file contains no valid token\t  NO_TARGET_DIMENSIONS = 13 Background download issue has no dimensions. No devices will be considered.\t  NO_VALID_DEVICES = 14 there were no valid devices found for this request. No action was needed  INVALID_SEGMENT_DEFINITION = 15 the supplied segment definition JSON was invalid  DEVICE_FILE_TOO_LARGE = 16 The supplied file of devices was too large  CERTIFICATE_REVOKED = 17 push certificate was revoked  PAYLOAD_SIZE_EXCEEDED = 18 payload exceeds the permitted max size  PAYLOAD_EMPTY = 19 payload is empty  DOWNSTREAM_SERVER_ERROR = 20 a server we depend on is unreachable",
+          "type": "array",
+          "items": {
+            "$ref": "statusResponse"
+          },
+          "nickname": "notificationHistory",
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "name": "x-tenant-id",
+              "description": "tenant Id",
+              "required": true,
+              "type": "string",
+              "paramType": "header",
+              "allowMultiple": false
+            },
+            {
+              "name": "x-notification-client-id",
+              "description": "An identifier of the application (client) that is sending the notification.",
+              "required": true,
+              "type": "string",
+              "paramType": "header",
+              "allowMultiple": false
+            },
+            {
+              "name": "historyFromDate",
+              "description": "History From Date",
+              "defaultValue": "0",
+              "required": true,
+              "type": "string",
+              "paramType": "query",
+              "allowMultiple": false
+            },
+            {
+              "name": "historyToDate",
+              "description": "History To Date",
+              "defaultValue": "9223372036854775807",
+              "required": true,
+              "type": "string",
+              "paramType": "query",
+              "allowMultiple": false
+            },
+            {
+              "name": "historySize",
+              "required": false,
+              "type": "integer",
+              "format": "int32",
+              "paramType": "query",
+              "allowMultiple": false
+            },
+            {
+              "name": "historyNextKey",
+              "required": false,
+              "type": "string",
+              "paramType": "query",
+              "allowMultiple": false
+            },
+            {
+              "name": "status",
+              "required": false,
+              "type": "string",
+              "paramType": "query",
+              "allowMultiple": false
+            },
+            {
+              "name": "version",
+              "description": "API Version",
+              "defaultValue": "1.0",
+              "required": false,
+              "type": "number",
+              "format": "float",
+              "paramType": "query",
+              "allowMultiple": false
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 200,
+              "message": "OK - returns a list of notifications.",
+              "responseModel": "ArrayList"
+            },
+            {
+              "code": 400,
+              "message": "Bad Request - if any of the required parameters are missing or invalid.",
+              "responseModel": "BadRequestException"
+            },
+            {
+              "code": 403,
+              "message": "Forbidden - if requester does not have permission to perform this operation.",
+              "responseModel": "Response"
+            },
+            {
+              "code": 503,
+              "message": "Service Unavailable - if any of the third party services are unavailable.",
+              "responseModel": "Response"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/notifications/{notificationId}",
+      "operations": [
+        {
+          "method": "DELETE",
+          "summary": "Cancel a notification",
+          "notes": "Delete a notification.  Possible errorCode returned:   INVALID_BACKGROUND = 2 can't have a background notification with a text message. Remove the text message  INVALID_BADGE = 3  If message has a badge, it must be a background notification  INVALID_MESSAGE =  4 No text message or background download  INVALID_BACK_SOUND = 5 Background download with sound isn't allowed  CANNOT_GET_DEVICES = 6 Can't get list of device based on tenant Id  CERTIFICATE_NOT_FOUND = 7 unable to retrieve the proper push notification  CERTIFICATE_EXPIRED = 8 push certificate has expired  INVALID_NOTIFICATION_ID = 9 notificationID passed in to status or cancel API's invalid  UNAUTHORIZED = 10 Can't touch this :)\t  MISSING_BACKGROUND = 11 Error when trying to find background issu  NO_DEVICES_IN_FILE = 12 Error when client uploaded file contains no valid token\t  NO_TARGET_DIMENSIONS = 13 Background download issue has no dimensions. No devices will be considered.\t  NO_VALID_DEVICES = 14 there were no valid devices found for this request. No action was needed  INVALID_SEGMENT_DEFINITION = 15 the supplied segment definition JSON was invalid  DEVICE_FILE_TOO_LARGE = 16 The supplied file of devices was too large  CERTIFICATE_REVOKED = 17 push certificate was revoked  PAYLOAD_SIZE_EXCEEDED = 18 payload exceeds the permitted max size  PAYLOAD_EMPTY = 19 payload is empty  DOWNSTREAM_SERVER_ERROR = 20 a server we depend on is unreachable",
+          "type": "statusResponse",
+          "nickname": "stopNotification",
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "name": "notificationId",
+              "description": "An identifier of the notification.",
+              "required": true,
+              "type": "string",
+              "paramType": "path",
+              "allowMultiple": false
+            },
+            {
+              "name": "x-tenant-id",
+              "description": "tenant Id",
+              "required": true,
+              "type": "string",
+              "paramType": "header",
+              "allowMultiple": false
+            },
+            {
+              "name": "x-notification-client-id",
+              "description": "An identifier of the application (client) that is sending the notification.",
+              "required": true,
+              "type": "string",
+              "paramType": "header",
+              "allowMultiple": false
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 200,
+              "message": "OK - notification is being canceled.",
+              "responseModel": "statusResponse"
+            },
+            {
+              "code": 400,
+              "message": "Bad Request - if any of the required parameters are missing or invalid.",
+              "responseModel": "BadRequestException"
+            },
+            {
+              "code": 403,
+              "message": "Forbidden - if requester does not have permission to perform this operation.",
+              "responseModel": "Response"
+            },
+            {
+              "code": 503,
+              "message": "Service Unavailable - if any of the third party services are unavailable.",
+              "responseModel": "Response"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "models": {
+    "OmnitureRequest": {
+      "id": "OmnitureRequest",
+      "properties": {
+        "valid": {
+          "type": "boolean"
+        },
+        "reportSuiteId": {
+          "type": "string"
+        },
+        "publicationTitle": {
+          "type": "string"
+        },
+        "applicationId": {
+          "type": "string"
+        }
+      }
+    },
+    "JsonNull": {
+      "id": "JsonNull",
+      "properties": {
+        "asString": {
+          "type": "string"
+        },
+        "jsonArray": {
+          "type": "boolean"
+        },
+        "jsonObject": {
+          "type": "boolean"
+        },
+        "jsonPrimitive": {
+          "type": "boolean"
+        },
+        "jsonNull": {
+          "type": "boolean"
+        },
+        "asBoolean": {
+          "type": "boolean"
+        },
+        "asNumber": {
+          "$ref": "Number"
+        },
+        "asDouble": {
+          "type": "number",
+          "format": "double"
+        },
+        "asFloat": {
+          "type": "number",
+          "format": "float"
+        },
+        "asLong": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "asInt": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "asByte": {
+          "type": "string",
+          "format": "byte"
+        },
+        "asCharacter": {
+          "$ref": "char"
+        },
+        "asBigDecimal": {
+          "$ref": "BigDecimal"
+        },
+        "asBigInteger": {
+          "$ref": "BigInteger"
+        },
+        "asShort": {
+          "$ref": "short"
+        },
+        "asJsonNull": {
+          "$ref": "JsonNull"
+        },
+        "asJsonPrimitive": {
+          "$ref": "JsonPrimitive"
+        },
+        "asJsonArray": {
+          "$ref": "JsonArray"
+        },
+        "asJsonObject": {
+          "$ref": "JsonObject"
+        }
+      }
+    },
+    "BigInteger": {
+      "id": "BigInteger",
+      "properties": {
+        "bitCount": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "bitLength": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "lowestSetBit": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "signum": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "JsonArray": {
+      "id": "JsonArray",
+      "properties": {
+        "asString": {
+          "type": "string"
+        },
+        "asBoolean": {
+          "type": "boolean"
+        },
+        "asNumber": {
+          "$ref": "Number"
+        },
+        "asDouble": {
+          "type": "number",
+          "format": "double"
+        },
+        "asFloat": {
+          "type": "number",
+          "format": "float"
+        },
+        "asLong": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "asInt": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "asByte": {
+          "type": "string",
+          "format": "byte"
+        },
+        "asCharacter": {
+          "$ref": "char"
+        },
+        "asBigDecimal": {
+          "$ref": "BigDecimal"
+        },
+        "asBigInteger": {
+          "$ref": "BigInteger"
+        },
+        "asShort": {
+          "$ref": "short"
+        },
+        "jsonArray": {
+          "type": "boolean"
+        },
+        "jsonObject": {
+          "type": "boolean"
+        },
+        "jsonPrimitive": {
+          "type": "boolean"
+        },
+        "jsonNull": {
+          "type": "boolean"
+        },
+        "asJsonNull": {
+          "$ref": "JsonNull"
+        },
+        "asJsonPrimitive": {
+          "$ref": "JsonPrimitive"
+        },
+        "asJsonArray": {
+          "$ref": "JsonArray"
+        },
+        "asJsonObject": {
+          "$ref": "JsonObject"
+        }
+      }
+    },
+    "JsonObject": {
+      "id": "JsonObject",
+      "properties": {
+        "asString": {
+          "type": "string"
+        },
+        "jsonArray": {
+          "type": "boolean"
+        },
+        "jsonObject": {
+          "type": "boolean"
+        },
+        "jsonPrimitive": {
+          "type": "boolean"
+        },
+        "jsonNull": {
+          "type": "boolean"
+        },
+        "asBoolean": {
+          "type": "boolean"
+        },
+        "asNumber": {
+          "$ref": "Number"
+        },
+        "asDouble": {
+          "type": "number",
+          "format": "double"
+        },
+        "asFloat": {
+          "type": "number",
+          "format": "float"
+        },
+        "asLong": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "asInt": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "asByte": {
+          "type": "string",
+          "format": "byte"
+        },
+        "asCharacter": {
+          "$ref": "char"
+        },
+        "asBigDecimal": {
+          "$ref": "BigDecimal"
+        },
+        "asBigInteger": {
+          "$ref": "BigInteger"
+        },
+        "asShort": {
+          "$ref": "short"
+        },
+        "asJsonNull": {
+          "$ref": "JsonNull"
+        },
+        "asJsonPrimitive": {
+          "$ref": "JsonPrimitive"
+        },
+        "asJsonArray": {
+          "$ref": "JsonArray"
+        },
+        "asJsonObject": {
+          "$ref": "JsonObject"
+        }
+      }
+    },
+    "WindowsRequest": {
+      "id": "WindowsRequest",
+      "properties": {
+        "windowsNameIdentity": {
+          "type": "string"
+        }
+      }
+    },
+    "BadRequestException": {
+      "id": "BadRequestException",
+      "properties": {
+        "response": {
+          "$ref": "Response"
+        },
+        "cause": {
+          "$ref": "Throwable"
+        },
+        "message": {
+          "type": "string"
+        },
+        "localizedMessage": {
+          "type": "string"
+        },
+        "stackTrace": {
+          "type": "array",
+          "items": {
+            "$ref": "StackTraceElement"
+          }
+        },
+        "suppressed": {
+          "type": "array",
+          "items": {
+            "$ref": "Throwable"
+          }
+        }
+      }
+    },
+    "AndroidRequest": {
+      "id": "AndroidRequest",
+      "properties": {
+        "collapseKey": {
+          "type": "string"
+        },
+        "projectNumber": {
+          "type": "string"
+        }
+      }
+    },
+    "IosRequest": {
+      "id": "IosRequest",
+      "properties": {
+        "bundleId": {
+          "type": "string"
+        },
+        "isProduction": {
+          "type": "boolean"
+        },
+        "badge": {
+          "type": "string"
+        }
+      }
+    },
+    "RPSRequest": {
+      "id": "RPSRequest",
+      "properties": {
+        "schedule": {
+          "type": "string"
+        },
+        "devices": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        },
+        "segmentDef": {
+          "$ref": "JsonObject"
+        },
+        "idForBackground": {
+          "type": "string"
+        },
+        "operatingSystemSpecifier": {
+          "type": "string"
+        },
+        "shouldBypass": {
+          "type": "string"
+        },
+        "iosData": {
+          "$ref": "IosRequest"
+        },
+        "androidData": {
+          "$ref": "AndroidRequest"
+        },
+        "windowsData": {
+          "$ref": "WindowsRequest"
+        },
+        "omnitureData": {
+          "$ref": "OmnitureRequest"
+        },
+        "customData": {
+          "$ref": "JsonObject"
+        }
+      }
+    },
+    "statusResponse": {
+      "id": "statusResponse",
+      "properties": {
+        "notificationClientId": {
+          "type": "string"
+        },
+        "notificationId": {
+          "type": "string"
+        },
+        "schedule": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "message": {
+          "type": "string"
+        },
+        "segmentDefString": {
+          "type": "string"
+        },
+        "operatingSystemSpecifier": {
+          "type": "string"
+        },
+        "idForBackground": {
+          "type": "string"
+        },
+        "shouldBypass": {
+          "type": "boolean"
+        },
+        "androidData": {
+          "$ref": "AndroidRequest"
+        },
+        "iosData": {
+          "$ref": "IosRequest"
+        },
+        "windowsData": {
+          "$ref": "WindowsRequest"
+        },
+        "omnitureData": {
+          "$ref": "OmnitureRequest"
+        },
+        "status": {
+          "$ref": "NotificationStatus",
+          "enum": [
+            "created",
+            "queued",
+            "started",
+            "all_sent",
+            "finished",
+            "cancelled",
+            "failed",
+            "preparing"
+          ]
+        },
+        "totalChunks": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "chunksCompleted": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "totalDevices": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "completeTime": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "threadId": {
+          "type": "string"
+        },
+        "errorCode": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "tenantId": {
+          "type": "string"
+        },
+        "customDataAsString": {
+          "type": "string"
+        },
+        "iosSent": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "iosFailed": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "androidSent": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "androidFailed": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "windowsSent": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "windowsFailed": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "statusAsInt": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "newstand": {
+          "type": "boolean"
+        },
+        "segmentDefinition": {
+          "$ref": "JsonObject"
+        }
+      }
+    },
+    "Response": {
+      "id": "Response",
+      "properties": {
+        "metadata": {
+          "$ref": "javax.ws.rs.core.MultivaluedMap<java.lang.String, java.lang.Object>"
+        },
+        "entity": {
+          "$ref": "Object"
+        },
+        "status": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "ArrayList": {
+      "id": "ArrayList",
+      "properties": {
+        "size": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "empty": {
+          "type": "boolean"
+        }
+      }
+    },
+    "FormDataContentDisposition": {
+      "id": "FormDataContentDisposition",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "creationDate": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "parameters": {
+          "$ref": "Map[string,string]"
+        },
+        "modificationDate": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "readDate": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "type": {
+          "type": "string"
+        },
+        "size": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "fileName": {
+          "type": "string"
+        }
+      }
+    },
+    "JsonPrimitive": {
+      "id": "JsonPrimitive",
+      "properties": {
+        "asString": {
+          "type": "string"
+        },
+        "number": {
+          "type": "boolean"
+        },
+        "boolean": {
+          "type": "boolean"
+        },
+        "string": {
+          "type": "boolean"
+        },
+        "asBoolean": {
+          "type": "boolean"
+        },
+        "asNumber": {
+          "$ref": "Number"
+        },
+        "asDouble": {
+          "type": "number",
+          "format": "double"
+        },
+        "asFloat": {
+          "type": "number",
+          "format": "float"
+        },
+        "asLong": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "asInt": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "asByte": {
+          "type": "string",
+          "format": "byte"
+        },
+        "asCharacter": {
+          "$ref": "char"
+        },
+        "asBigDecimal": {
+          "$ref": "BigDecimal"
+        },
+        "asBigInteger": {
+          "$ref": "BigInteger"
+        },
+        "asShort": {
+          "$ref": "short"
+        },
+        "jsonArray": {
+          "type": "boolean"
+        },
+        "jsonObject": {
+          "type": "boolean"
+        },
+        "jsonPrimitive": {
+          "type": "boolean"
+        },
+        "jsonNull": {
+          "type": "boolean"
+        },
+        "asJsonNull": {
+          "$ref": "JsonNull"
+        },
+        "asJsonPrimitive": {
+          "$ref": "JsonPrimitive"
+        },
+        "asJsonArray": {
+          "$ref": "JsonArray"
+        },
+        "asJsonObject": {
+          "$ref": "JsonObject"
+        }
+      }
+    },
+    "BigDecimal": {
+      "id": "BigDecimal",
+      "properties": {
+        "scale": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "precision": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    }
+  }
+}

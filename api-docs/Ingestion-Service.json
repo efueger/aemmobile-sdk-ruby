@@ -1,0 +1,107 @@
+{
+  "apiVersion": "1.0",
+  "swaggerVersion": "1.2",
+  "basePath": "http://localhost/release.2015.6",
+  "resourcePath": "/Article-Ingestion",
+  "apis": [
+    {
+      "path": "/publication{publicationId}/article/{articleId}/contents/{renditionName}",
+      "operations": [
+        {
+          "method": "PUT",
+          "summary": "This method will upload the contents of a DPS 2015 .article file into the Adobe Digital Publishing Solution environment. This method requires the entityType to be 'article',content-type to be 'application/zip' or 'application/vnd.adobe.article+zip' and requires valid values for the headers.It also requires a non-null and non-empty article file. This method operates asynchronously, meaning a '202 ACCEPTED'response will be returned as soon as the article contents are uploaded. The bits of the article zip file are processed and ingested asynchronously by means of a workflow process. The status updates of this asynchronous process are posted to the PECS Status API by the workflow. Any updates can by obtained by querying the Status API.",
+          "notes": "",
+          "type": "void",
+          "nickname": "uploadFullArticle",
+          "produces": [
+            "application/json"
+          ],
+          "consumes": [
+            "application/vnd.adobe.article+zip,application/zip"
+          ],
+          "parameters": [
+            {
+              "name": "x-dps-client-session-id",
+              "required": false,
+              "type": "string",
+              "paramType": "header",
+              "allowMultiple": false
+            },
+            {
+              "name": "x-dps-client-version",
+              "required": false,
+              "type": "string",
+              "paramType": "header",
+              "allowMultiple": false
+            },
+            {
+              "name": "x-dps-client-id",
+              "required": false,
+              "type": "string",
+              "paramType": "header",
+              "allowMultiple": false
+            },
+            {
+              "name": "x-dps-client-request-id",
+              "required": false,
+              "type": "string",
+              "paramType": "header",
+              "allowMultiple": false
+            },
+            {
+              "name": "publicationId",
+              "description": "publicationId",
+              "required": true,
+              "type": "string",
+              "paramType": "path",
+              "allowMultiple": false
+            },
+            {
+              "name": "articleId",
+              "description": "articleId",
+              "required": true,
+              "type": "PathSegment",
+              "paramType": "path",
+              "allowMultiple": false
+            },
+            {
+              "name": "renditionName",
+              "description": "renditionName",
+              "required": true,
+              "type": "string",
+              "paramType": "path",
+              "allowMultiple": false
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 202,
+              "message": "Accepted content. This code will be returned if the upload is successful and found to be free of viruses or other malicious content."
+            },
+            {
+              "code": 400,
+              "message": "InvalidMessageContent: Bad Request - one or more of the parameters or the content of the .article was invalid.  "
+            },
+            {
+              "code": 500,
+              "message": "Internal Server Error: a problem within the service prevented the call from succeeding.  "
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "models": {
+    "PathSegment": {
+      "id": "PathSegment",
+      "properties": {
+        "path": {
+          "type": "string"
+        },
+        "matrixParameters": {
+          "$ref": "javax.ws.rs.core.MultivaluedMap<java.lang.String, java.lang.String>"
+        }
+      }
+    }
+  }
+}

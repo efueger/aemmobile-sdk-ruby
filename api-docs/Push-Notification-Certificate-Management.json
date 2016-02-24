@@ -1,0 +1,735 @@
+{
+  "apiVersion": "2.0",
+  "swaggerVersion": "1.2",
+  "basePath": "http://localhost/release.2015.6",
+  "resourcePath": "/CertificateManagement",
+  "apis": [
+    {
+      "path": "/certificate/ios/{certificateId}/isRevoked",
+      "operations": [
+        {
+          "method": "GET",
+          "summary": "Is a certificate revoked",
+          "notes": "Returns details if an Apple certificate has been revoked.  Response can include the following errors:   INVALID_CERTIFICATE_TYPE = 13  IO_ERROR = 14  CERTIFICATE_ERROR = 15  SERVER_ERROR = 16  CERTIFICATE_NOT_FOUND = 17",
+          "type": "certificateResponse",
+          "nickname": "isCertificateRevoked",
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "name": "x-tenant-id",
+              "description": "tenant Id",
+              "required": true,
+              "type": "string",
+              "paramType": "header",
+              "allowMultiple": false
+            },
+            {
+              "name": "x-notification-client-id",
+              "description": "An identifier of the application (client) that is sending the notification.",
+              "required": true,
+              "type": "string",
+              "paramType": "header",
+              "allowMultiple": false
+            },
+            {
+              "name": "certificateId",
+              "description": "Certificate ID",
+              "required": true,
+              "type": "string",
+              "paramType": "path",
+              "allowMultiple": false
+            },
+            {
+              "name": "isProduction",
+              "description": "Production or Sandbox",
+              "required": false,
+              "type": "boolean",
+              "paramType": "query",
+              "allowMultiple": false
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 200,
+              "message": "OK - information about certificate revoked status returned.",
+              "responseModel": "certificateRevokedResponse"
+            },
+            {
+              "code": 400,
+              "message": "Bad Request - if any of the required parameters are missing or invalid.",
+              "responseModel": "BadRequestException"
+            },
+            {
+              "code": 403,
+              "message": "Forbidden - if requester does not have permission to perform this operation.",
+              "responseModel": "Response"
+            },
+            {
+              "code": 503,
+              "message": "Service Unavailable - if any of the third party services are unavailable.",
+              "responseModel": "Response"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/certificate/{certificateType}/{certificateId}",
+      "operations": [
+        {
+          "method": "GET",
+          "summary": "Retrieves either the iOS certificates or the Android APIKey or Windows NameIdentity from database",
+          "notes": "There should be two certificates (Production and Sandbox) for iOS. The APIKey identifies the Android certificate. The NameIdentity identifies the Windows certificate.  Response can include the following errors:   INVALID_CERTIFICATE_TYPE = 13  IO_ERROR = 14  CERTIFICATE_ERROR = 15  SERVER_ERROR = 16  CERTIFICATE_NOT_FOUND = 17",
+          "type": "certificateResponse",
+          "nickname": "getCertificate",
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "name": "x-tenant-id",
+              "description": "tenant Id",
+              "required": true,
+              "type": "string",
+              "paramType": "header",
+              "allowMultiple": false
+            },
+            {
+              "name": "x-notification-client-id",
+              "description": "An identifier of the application (client) that is sending the notification.",
+              "required": true,
+              "type": "string",
+              "paramType": "header",
+              "allowMultiple": false
+            },
+            {
+              "name": "certificateType",
+              "description": "iOS, android or windows",
+              "required": true,
+              "type": "string",
+              "paramType": "path",
+              "allowMultiple": false
+            },
+            {
+              "name": "certificateId",
+              "description": "bundleId &#40;for Apple&#41;, projectNumber &#40;for Android&#41;, and NameIdentity &#40;for Windows&#41;",
+              "required": true,
+              "type": "string",
+              "paramType": "path",
+              "allowMultiple": false
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 200,
+              "message": "OK - certificate data retreived.",
+              "responseModel": "certificateRevokedResponse"
+            },
+            {
+              "code": 400,
+              "message": "Bad Request - if any of the required parameters are missing or invalid.",
+              "responseModel": "BadRequestException"
+            },
+            {
+              "code": 403,
+              "message": "Forbidden - if requester does not have permission to perform this operation.",
+              "responseModel": "Response"
+            },
+            {
+              "code": 503,
+              "message": "Service Unavailable - if any of the third party services are unavailable.",
+              "responseModel": "Response"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/certificate",
+      "operations": [
+        {
+          "method": "GET",
+          "summary": "Retrieves all the push credential associated with the projectID (tenant Id) from database",
+          "notes": "There should be two certificates (Production and Sandbox) for iOS. The APIKey identifies the Android certificate. The NameIdentity identifies the Windows certificate.  Response can include the following errors:   INVALID_CERTIFICATE_TYPE = 13  IO_ERROR = 14  CERTIFICATE_ERROR = 15  SERVER_ERROR = 16  CERTIFICATE_NOT_FOUND = 17",
+          "type": "certificateResponse",
+          "nickname": "getCertificates",
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "name": "x-tenant-id",
+              "description": "tenant Id",
+              "required": true,
+              "type": "string",
+              "paramType": "header",
+              "allowMultiple": false
+            },
+            {
+              "name": "x-notification-client-id",
+              "description": "An identifier of the application (client) that is sending the notification.",
+              "required": true,
+              "type": "string",
+              "paramType": "header",
+              "allowMultiple": false
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 200,
+              "message": "OK - certificate data retreived.",
+              "responseModel": "certificateRevokedResponse"
+            },
+            {
+              "code": 400,
+              "message": "Bad Request - if any of the required parameters are missing or invalid.",
+              "responseModel": "BadRequestException"
+            },
+            {
+              "code": 403,
+              "message": "Forbidden - if requester does not have permission to perform this operation.",
+              "responseModel": "Response"
+            },
+            {
+              "code": 503,
+              "message": "Service Unavailable - if any of the third party services are unavailable.",
+              "responseModel": "Response"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/certificate/ios",
+      "operations": [
+        {
+          "method": "POST",
+          "summary": "Upload a pair of iOS certificates into the Push Notification Service.  These certificates will be used to pair notifications to the appropriate devices.  For iOS, this includes whether the certificate is production or sandbox, as well as the bundleId which can identify the application to send the notifications to. Used by RPS to identify the devices to send the notification to.",
+          "notes": "  Possible error return values:   INVALID_SANDBOX_CERT_OR_PASSWORD = 2  INVALID_PRODUCTION_CERT_OR_PASSWORD = 3  EXPIRED_SANDBOX_CERT = 4  EXPIRED_PRODUCTION_CERT = 5  INVALID_SANDBOX_PASSWORD = 6  INVALID_PRODUCTION_PASSWORD = 7  BUNDLE_ID_INVALID = 8  BAD_SANDBOX_BUNDLE_ID = 9  BAD_PRODUCTION_BUNDLE_ID = 10  INVALID_CERTIFICATE_TYPE = 13  IO_ERROR = 14  CERTIFICATE_ERROR = 15  SERVER_ERROR = 16  CERTIFICATE_NOT_FOUND = 17",
+          "type": "uploadResponse",
+          "nickname": "uploadIOSCertificate",
+          "produces": [
+            "application/json"
+          ],
+          "consumes": [
+            "multipart/form-data"
+          ],
+          "parameters": [
+            {
+              "name": "x-tenant-id",
+              "description": "tenant Id",
+              "required": true,
+              "type": "string",
+              "paramType": "header",
+              "allowMultiple": false
+            },
+            {
+              "name": "x-notification-client-id",
+              "description": "An identifier of the application (client) that is sending the notification.",
+              "required": true,
+              "type": "string",
+              "paramType": "header",
+              "allowMultiple": false
+            },
+            {
+              "name": "certificate",
+              "description": "A JSON parameter that includes information about the Apple certificates to be uploaded.<br><br><p style='font-size:16px; color:#005500;'>certificate.iOSBundleId</p> - the bundle, or applicationId to be associated with this certificate.<br><br><p style='font-size:16px; color:#005500;'>certificate.iOSProductionCertificatePassword</p> - The password of the production certificate.<br><br><p style='font-size:16px; color:#005500;'>certificate.iOSSandboxCertificatePassword</p> - The password of the sandbox certificate.",
+              "required": true,
+              "type": "AppleCertificateRequest",
+              "paramType": "body",
+              "allowMultiple": false
+            },
+            {
+              "name": "iOSProductionCertificateFile",
+              "description": "The multipart file data for the production certificate.",
+              "required": true,
+              "type": "InputStream",
+              "paramType": "body",
+              "allowMultiple": false
+            },
+            {
+              "name": "iOSProductionCertificateFile",
+              "description": "Disposition for the production certificate file.",
+              "required": true,
+              "type": "FormDataContentDisposition",
+              "paramType": "body",
+              "allowMultiple": false
+            },
+            {
+              "name": "iOSSandboxCertificateFile",
+              "description": "The multipart file data for the sandbox certificate.",
+              "required": true,
+              "type": "InputStream",
+              "paramType": "body",
+              "allowMultiple": false
+            },
+            {
+              "name": "iOSSandboxCertificateFile",
+              "description": "Disposition for the sandbox certificate file.",
+              "required": true,
+              "type": "FormDataContentDisposition",
+              "paramType": "body",
+              "allowMultiple": false
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 200,
+              "message": "OK - upload response included.",
+              "responseModel": "uploadResponse"
+            },
+            {
+              "code": 400,
+              "message": "Bad Request - if any of the required parameters are missing or invalid.",
+              "responseModel": "BadRequestException"
+            },
+            {
+              "code": 403,
+              "message": "Forbidden - if requester does not have permission to perform this operation.",
+              "responseModel": "Response"
+            },
+            {
+              "code": 503,
+              "message": "Service Unavailable - if any of the third party services are unavailable.",
+              "responseModel": "Response"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/certificate/android",
+      "operations": [
+        {
+          "method": "POST",
+          "summary": "Uploads an Android APIKey certificate into the Push Notification Service.  This certificate will be used to send a notification to the appropriate devices.  For Android, this includes the projectNumber which will identify the application to send the notifications to.",
+          "notes": "  Possible error return values:   INVALID_CERTIFICATE_TYPE = 13  IO_ERROR = 14  CERTIFICATE_ERROR = 15  SERVER_ERROR = 16  CERTIFICATE_NOT_FOUND = 17",
+          "type": "uploadResponse",
+          "nickname": "uploadAndroidCertificate",
+          "produces": [
+            "application/json"
+          ],
+          "consumes": [
+            "multipart/form-data"
+          ],
+          "parameters": [
+            {
+              "name": "x-tenant-id",
+              "description": "tenant Id",
+              "required": true,
+              "type": "string",
+              "paramType": "header",
+              "allowMultiple": false
+            },
+            {
+              "name": "x-notification-client-id",
+              "description": "An identifier of the application (client) that is sending the notification.",
+              "required": true,
+              "type": "string",
+              "paramType": "header",
+              "allowMultiple": false
+            },
+            {
+              "name": "certificate",
+              "description": "A JSON parameter that includes information about the Android APIKey to be uploaded.<br><br><p style='font-size:16px; color:#005500;'>certificate.androidAPIKey</p> - the (required) Android APIKey for push notification.<br><br><p style='font-size:16px; color:#005500;'>certificate.androidProjectNumber</p> - the (required) projectNumber, or applicationId to be associated with this certificate.<br><br><p style='font-size:16px; color:#005500;'>certificate.androidActivationDateEpoch</p> - The (optional) activation Date.  In milliseconds since the Epoch.<br><br><p style='font-size:16px; color:#005500;'>certificate.androidActivationBy</p> - The (optional) activation by string.<br><br><p style='font-size:16px; color:#005500;'>certificate.androidInfo</p> - Optional extra info.",
+              "required": true,
+              "type": "AndroidCertificateRequest",
+              "paramType": "body",
+              "allowMultiple": false
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 200,
+              "message": "OK - upload response included.",
+              "responseModel": "uploadResponse"
+            },
+            {
+              "code": 400,
+              "message": "Bad Request - if any of the required parameters are missing or invalid.",
+              "responseModel": "BadRequestException"
+            },
+            {
+              "code": 403,
+              "message": "Forbidden - if requester does not have permission to perform this operation.",
+              "responseModel": "Response"
+            },
+            {
+              "code": 503,
+              "message": "Service Unavailable - if any of the third party services are unavailable.",
+              "responseModel": "Response"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/certificate/windows",
+      "operations": [
+        {
+          "method": "POST",
+          "summary": "Uploads a Windows NameIdentity certificate into the Push Notification Service.  This certificate will be used to send a notification to the appropriate devices. For Windows, this includes the nameIdentity which will identify the application to send the notifications to.",
+          "notes": "  Possible error return values:   INVALID_CERTIFICATE_TYPE = 13  IO_ERROR = 14  CERTIFICATE_ERROR = 15  SERVER_ERROR = 16  CERTIFICATE_NOT_FOUND = 17",
+          "type": "uploadResponse",
+          "nickname": "uploadWindowsCertificate",
+          "produces": [
+            "application/json"
+          ],
+          "consumes": [
+            "multipart/form-data"
+          ],
+          "parameters": [
+            {
+              "name": "x-tenant-id",
+              "description": "tenant Id",
+              "required": true,
+              "type": "string",
+              "paramType": "header",
+              "allowMultiple": false
+            },
+            {
+              "name": "x-notification-client-id",
+              "description": "An identifier of the application (client) that is sending the notification.",
+              "required": true,
+              "type": "string",
+              "paramType": "header",
+              "allowMultiple": false
+            },
+            {
+              "name": "certificate",
+              "description": "A JSON parameter that includes information about the Windows information to be uploaded.<br><br><p style='font-size:16px; color:#005500;'>certificate.windowsNameIdentity</p> - The (required) app name identity (or applicationId).<br><br><p style='font-size:16px; color:#005500;'>certificate.windowsClientSecret</p> - the (required) Windows ClientSecret for push notification.<br><br><p style='font-size:16px; color:#005500;'>certificate.windowsSId</p> - the (required) sId, to be associated with this certificate.<br><br><p style='font-size:16px; color:#005500;'>certificate.windowsClientId</p> - The (optional) clientId .<br><br><p style='font-size:16px; color:#005500;'>certificate.windowsPublisherIdentity</p> - The (optional) publisher identity.<br><br>",
+              "required": true,
+              "type": "WindowsCertificateRequest",
+              "paramType": "body",
+              "allowMultiple": false
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 200,
+              "message": "OK - upload response included.",
+              "responseModel": "uploadResponse"
+            },
+            {
+              "code": 400,
+              "message": "Bad Request - if any of the required parameters are missing or invalid.",
+              "responseModel": "BadRequestException"
+            },
+            {
+              "code": 403,
+              "message": "Forbidden - if requester does not have permission to perform this operation.",
+              "responseModel": "Response"
+            },
+            {
+              "code": 503,
+              "message": "Service Unavailable - if any of the third party services are unavailable.",
+              "responseModel": "Response"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "models": {
+    "AppleCertificateRequest": {
+      "id": "AppleCertificateRequest",
+      "properties": {
+        "iOSBundleId": {
+          "type": "string"
+        },
+        "iOSProductionCertificatePassword": {
+          "type": "string"
+        },
+        "iOSSandboxCertificatePassword": {
+          "type": "string"
+        }
+      }
+    },
+    "WindowsCertificate": {
+      "id": "WindowsCertificate",
+      "properties": {
+        "nameIdentity": {
+          "type": "string"
+        },
+        "clientId": {
+          "type": "string"
+        },
+        "clientSecret": {
+          "type": "string"
+        },
+        "sId": {
+          "type": "string"
+        },
+        "publisherIdentity": {
+          "type": "string"
+        },
+        "notificationClientId": {
+          "type": "string"
+        },
+        "tenantId": {
+          "type": "string"
+        },
+        "empty": {
+          "type": "boolean"
+        }
+      }
+    },
+    "GoogleCertificate": {
+      "id": "GoogleCertificate",
+      "properties": {
+        "projectNumber": {
+          "type": "string"
+        },
+        "apiKey": {
+          "type": "string"
+        },
+        "activationDate": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "activatedBy": {
+          "type": "string"
+        },
+        "info": {
+          "type": "string"
+        },
+        "notificationClientId": {
+          "type": "string"
+        },
+        "tenantId": {
+          "type": "string"
+        },
+        "empty": {
+          "type": "boolean"
+        }
+      }
+    },
+    "uploadResponse": {
+      "id": "uploadResponse",
+      "properties": {
+        "uploadSucceeded": {
+          "type": "boolean"
+        },
+        "certificateErrorList": {
+          "type": "array",
+          "items": {
+            "$ref": "CertificateError"
+          }
+        }
+      }
+    },
+    "AppleCertificate": {
+      "id": "AppleCertificate",
+      "properties": {
+        "bundleId": {
+          "type": "string"
+        },
+        "sandboxCertificate": {
+          "type": "array",
+          "items": {
+            "type": "byte"
+          }
+        },
+        "sandboxPassword": {
+          "type": "string"
+        },
+        "sandboxExpirationDate": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "productionCertificate": {
+          "type": "array",
+          "items": {
+            "type": "byte"
+          }
+        },
+        "productionPassword": {
+          "type": "string"
+        },
+        "productionExpirationDate": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "info": {
+          "type": "string"
+        },
+        "notificationClientId": {
+          "type": "string"
+        },
+        "tenantId": {
+          "type": "string"
+        },
+        "empty": {
+          "type": "boolean"
+        }
+      }
+    },
+    "WindowsCertificateRequest": {
+      "id": "WindowsCertificateRequest",
+      "properties": {
+        "windowsNameIdentity": {
+          "type": "string"
+        },
+        "windowsClientSecret": {
+          "type": "string"
+        },
+        "windowsSId": {
+          "type": "string"
+        },
+        "windowsClientId": {
+          "type": "string"
+        },
+        "windowsPublisherIdentity": {
+          "type": "string"
+        }
+      }
+    },
+    "BadRequestException": {
+      "id": "BadRequestException",
+      "properties": {
+        "response": {
+          "$ref": "Response"
+        },
+        "cause": {
+          "$ref": "Throwable"
+        },
+        "message": {
+          "type": "string"
+        },
+        "localizedMessage": {
+          "type": "string"
+        },
+        "stackTrace": {
+          "type": "array",
+          "items": {
+            "$ref": "StackTraceElement"
+          }
+        },
+        "suppressed": {
+          "type": "array",
+          "items": {
+            "$ref": "Throwable"
+          }
+        }
+      }
+    },
+    "certificateRevokedResponse": {
+      "id": "certificateRevokedResponse",
+      "properties": {
+        "revoked": {
+          "type": "boolean"
+        },
+        "error": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "bundleId": {
+          "type": "string"
+        },
+        "tenantId": {
+          "type": "string"
+        }
+      }
+    },
+    "certificateResponse": {
+      "id": "certificateResponse",
+      "properties": {
+        "appleCertificate": {
+          "$ref": "AppleCertificate"
+        },
+        "googleCertificate": {
+          "$ref": "GoogleCertificate"
+        },
+        "windowsCertificate": {
+          "$ref": "WindowsCertificate"
+        },
+        "error": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "AndroidCertificateRequest": {
+      "id": "AndroidCertificateRequest",
+      "properties": {
+        "androidAPIKey": {
+          "type": "string"
+        },
+        "androidProjectNumber": {
+          "type": "string"
+        },
+        "androidActivationDateEpoch": {
+          "type": "string"
+        },
+        "androidActivationBy": {
+          "type": "string"
+        },
+        "androidInfo": {
+          "type": "string"
+        }
+      }
+    },
+    "Response": {
+      "id": "Response",
+      "properties": {
+        "metadata": {
+          "$ref": "javax.ws.rs.core.MultivaluedMap<java.lang.String, java.lang.Object>"
+        },
+        "entity": {
+          "$ref": "Object"
+        },
+        "status": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "FormDataContentDisposition": {
+      "id": "FormDataContentDisposition",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "creationDate": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "parameters": {
+          "$ref": "Map[string,string]"
+        },
+        "modificationDate": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "readDate": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "type": {
+          "type": "string"
+        },
+        "size": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "fileName": {
+          "type": "string"
+        }
+      }
+    },
+    "CertificateError": {
+      "id": "CertificateError",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

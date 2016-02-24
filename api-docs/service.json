@@ -1,0 +1,56 @@
+{
+  "apiVersion": "1.0",
+  "swaggerVersion": "1.2",
+  "apis": [
+    {
+      "path": "/Authorization-Service-Permissions.json",
+      "description": "This API provides information on the permissions that a particular user has in the system. The user first has to authenticate with IMS to get an access_token.<br><br>Production Endpoint: https://authorization.publish.adobe.io<br>"
+    },
+    {
+      "path": "/Producer-Service-Status.json",
+      "description": "This API group supports entity status methods.<br><br>Production Endpoint: https://pecs.publish.adobe.io<br>"
+    },
+    {
+      "path": "/Ingestion-Service.json",
+      "description": "This API group represents operations to 'ingest' contents from a given .article zip file into a specified (and preexisting) article entity in the Producer Service. In essence 'ingestion' is a convenience method that allows a client to upload an article's entire contents into an existing article enity in one call. The article is sealed at the end of ingestion; as a result the entity version may be incremented in which case further update attempts, either by the same client or by another client, will result in a 409 Conflict.<br><br>Production Endpoint: https://ings.publish.adobe.io<br>"
+    },
+    {
+      "path": "/Authentication-Service.json",
+      "description": "Handles authentication for Adobe Digital Publishing Solution. The <a href=\"https://aex.publish.adobe.com/index.html#/\">Auth Exchange Service</a> is used to create the device_id and device_token. The device_id and device_token pair is used in the authentication calls to get an access_token<br><br>The device_id and device_token used in the DPS 2015 workflow have a life time of 6 months. They automatically renew as they are used, otherwise a new one must be generated from the mentioned Auth Exchange Service when expired. The access token is valid for 24 hours, and you can use the device Id and device token to generate a new one.<br><br>Production Endpoint: https://ims-na1.adobelogin.com<br><br>"
+    },
+    {
+      "path": "/Producer-Service-Content.json",
+      "description": "This API group operates on the content referenced by entities.<br><br>  Each content-bearing entity can contain a \"bucket\" of content assets.  The exact folder structure and asset names are entirely under the client's control, according to the contentPath parameter as supplied by the client.  The content bucket itself is versioned separately from the version on the entity itself.  Clients use the contentVersion matrix parameter on the \"contents\" segment of the URI paths below to specify a particular version of content bucket.<br><br>Production Endpoint: https://pecs.publish.adobe.io<br>"
+    },
+    {
+      "path": "/Producer-Service-Entity.json",
+      "description": "This API group operates on \"entities\" - small amounts of metadata describing the data. Standard entities include:<br><br><ul><li><b>article:</b> represents an article,</li><br><li><b>collection:</b> Represents a collection;</li><br><li><b>banner:</b> Represents a banner;</li><br><li><b>layout:</b> Represents a layout;</li><br><li><b>cardTemplate:</b> Represents a card template;</li><br><li><b>sharedContent:</b>Represents shared content, which can be referenced from content in other entities within the project by creating a symbolic link asset within that entity. See this article <LINK TO ARTICLE HERE> for a detailed workflow on how to work with shared content.<br><br>Production Endpoint: https://pecs.publish.adobe.io<br>"
+    },
+    {
+      "path": "/Producer-Service-Publish.json",
+      "description": "This API group represents the set of APIs for publishing an entity or set of entities from Producer to Delivery Service<br><br>Production Endpoint: https://pecs.publish.adobe.io<br>"
+    },
+    {
+      "path": "/Product-Service.json",
+      "description": "<p>This API group represents an individual piece of content that a user can become entitled to, e.g. a collection. It can be offered as a single purchase and/or included in product bundles. A product is identified by its ID, which must be unique within a publication.<br><br>Production Endpoint: https://ps.publish.adobe.io<br>"
+    },
+    {
+      "path": "/Product-Bundle-Service.json",
+      "description": "<p>This API group represents any combination of existing products that can be purchased in bulk. Currently only used for subscriptions, where the bundle describes the products generally available when buying the subscription. When a subscription receipt is passed to the ES, the bundle's ID is matched against the receipt's product ID to determine the pool of product IDs that entitlements should be granted for. The product bundle ID must be unique within the publication.<br><br>Production Endpoint: https://ps.publish.adobe.io<br>"
+    },
+    {
+      "path": "/Push-Notification-Certificate-Management.json",
+      "description": "This API group maintains a databases of operating system specific certificates, which are uploaded by calling our Certificate Service APIs. These certificates are related to the applications that you have created and contain data that allows our system to connect to the various operating system notification systems which can then send the notification to the appropriate devices based on device tokens stored in the device database.<br><br>Control of the iOS Production/Sandbox certificates, the Android APIKey, and the Windows Name Identity<br><br>Production Endpoint: https://rps.publish.adobe.io<br>"
+    },
+    {
+      "path": "/Push-Notification.json",
+      "description": "<strong>Notification: </strong>Notifications are sent by calling our /notifications API. The \"push\" Json parameter contains all the data required to fully specify what your notification does and which devices it is sent to.  Including: <br><br> - What type of notification it is (displaying text or silent background download of new application data) <br> - Which operating system to send it to (iOS, Android or Windows) <br> - What segments of your devices to send it to (tablets or phones or both) <br> - What badge value to display (iOS only) <br> - A scheduled time to send the notification -  up to 2 months in the future <br> - Any custom Json data you wish to include.  This custom data can be interpreted by your application in any way you see fit and provides an enormous amount of flexibility.<br><br>For sending Text and Background Download Notifications to applications on Mac, Windows and Android<br><br>Production Endpoint: https://rps.publish.adobe.io<br>"
+    }
+  ],
+  "info": {
+    "title": "Producer Service API Documentation",
+    "description": "By using this documentation, you agree to the terms of our <a href='http://www.adobe.com/support/downloads/license.html'>license agreement</a>. Please read it before continuing.<br><br><h1>Required Properties</h1>Here is the set of required query parameters and http headers for all Producer Service APIs.<br><br><table><tr><th>Parameter</th><th>Param type</th><th>Data type</th><th>Required</th><th>Description</th><th>Sample value</th></tr><tr><td>x-dps-api-key</td><td>header</td><td>String</td><td>yes</td><td>DPS 2015 issued API client identification. Value specified in this parameter will be used to identify API client and authorize access to Producer Service APIs. It can also be used for throttling and other purposes specific to a single client.</td><td>dps-test-client</td></tr><tr><td>x-dps-client-version</td><td>header</td><td>String</td><td>yes</td><td>Specify the software version of the client application. Best practice is to use double-dot style notation with a major, minor, and dot release number, e.g. \"1.5.0\".</td><td>1.3.5</td></tr><tr><td>x-dps-client-request-id</td><td>header</td><td>UUID</td><td>yes</td><td>GUID unique to a request. This ID is intended to identify all the API calls made to service a single, logical \"user\" request.</td><td>12345678-9abc-def0-1234-56789abcdef0</td></tr><tr><td>x-dps-client-session-id</td><td>header</td><td>UUID</td><td>yes</td><td>GUID unique to a client-defined 'session'. The scope of a session ID is defined by the client. Recommendation is to use the same value for all requests from the same user login session.</td><td>87654321-0cba-9efg-4321-987650fedcba</td></tr></table><br><br><hr><h1>Common Custom Data Types</h1>Here are custom date types used by Producer Service APIs in API path and query parameters.<br><br><table><tr><th>Date type</th><th>Description</th><th>Sample value</th><tr><td>PublicationID</td><td>GUID unique to a publication.</td><td>1bb5bcf0-d173-43db-8fc1-87fe64b66dfa</td></tr><tr><td>EntityType</td><td>EntityTypes are pre-defined entities containing small amounts of metadata describing the entity data. Please refer to the \"Entity\" API section below for supported entity types.</td><td>article</td></tr><tr><td>EntityName</td><td>Client defined name of an entity. This name will be used in \"navto://\" links. However this name is not visible in viewer UI. EntityName must match the regular expression pattern: \"[0-9a-zA-Z]{1}[0-9a-zA-Z_%.-]{0,254}[0-9a-zA-Z]{1}\"</td><td>coverArticle01</td></tr><tr><td>VersionID</td><td>An opaque string defining the version of the entity. Entity version ID is managed by service. For creation of a new entity, you must not specify version ID. Entity version ID is generated by service backend and immutable after creation. On updating an existing entity, entity version ID must be specified to match the head version of the entity. Entity version changes by service backend when the entity is successfully updated. If specified Version ID is incorrect, a version conflict error will be returned in API response.</td><td>1431550404469</td></tr></table><br><br><hr><h1>Error Responses</h1>In case of authentication and other API error responses a standard JSON error payload will be returned with non-200 HTTP response.<br>Some APIs define set specific error code constants that can be expected in specific error condition, some return general text description and client should not build any logic on general text error message.<br><br> <blockquote style=\"margin-left:2em\">{<br><span style=\"padding-left:2em\">\"code\" : \"4041\"</span>, <br><span style=\"padding-left:2em\">\"message\" : \"User not provisioned\"</span><br>}</blockquote><br>",
+    "contact": "wwds@adobe.com"
+  },
+  "basePath": "http://localhost:8888/aemmobile-swagger-doc"
+}

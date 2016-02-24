@@ -1,0 +1,1156 @@
+{
+  "apiVersion": "2.0",
+  "swaggerVersion": "1.2",
+  "basePath": "http://localhost/release.2015.6",
+  "resourcePath": "/Devices",
+  "apis": [
+    {
+      "path": "/devices/ios",
+      "operations": [
+        {
+          "method": "POST",
+          "summary": "Create device for Apple iOS",
+          "notes": "Creates a device entry for an application that is installed on an iOS device using a URL-encoded form. The application will call this API to register itself withe the RPS system. The RPS service will use this information to send notifications to devices that have installed this application.",
+          "type": "results",
+          "nickname": "createIosDevice",
+          "produces": [
+            "application/json"
+          ],
+          "consumes": [
+            "application/x-www-form-urlencoded"
+          ],
+          "parameters": [
+            {
+              "name": "x-notification-client-id",
+              "description": "An identifier of the application (client) that is sending the notification.",
+              "required": true,
+              "type": "string",
+              "paramType": "header",
+              "allowMultiple": false
+            },
+            {
+              "name": "x-tenant-id",
+              "description": "Tenant ID to create the device entry in",
+              "required": true,
+              "type": "string",
+              "paramType": "header",
+              "allowMultiple": false
+            },
+            {
+              "name": "deviceToken",
+              "description": "Device token value to store. It is base64 encoded.",
+              "required": true,
+              "type": "string",
+              "paramType": "form",
+              "allowMultiple": false
+            },
+            {
+              "name": "deviceType",
+              "description": "Either phone or tablet.",
+              "required": true,
+              "type": "string",
+              "paramType": "form",
+              "allowMultiple": false
+            },
+            {
+              "name": "isProduction",
+              "description": "Is it for a Production app - true or false",
+              "required": true,
+              "type": "boolean",
+              "paramType": "form",
+              "allowMultiple": false
+            },
+            {
+              "name": "isNewsstand",
+              "description": "Is it for a Newsstand app - true or false",
+              "required": true,
+              "type": "boolean",
+              "paramType": "form",
+              "allowMultiple": false
+            },
+            {
+              "name": "deviceDimension",
+              "description": "Device screen size (example 1024x768)",
+              "required": true,
+              "type": "string",
+              "paramType": "form",
+              "allowMultiple": false
+            },
+            {
+              "name": "applicationId",
+              "description": "Apple&#39;s bundleId",
+              "required": true,
+              "type": "string",
+              "paramType": "form",
+              "allowMultiple": false
+            },
+            {
+              "name": "applicationVersion",
+              "description": "Viewer version on device",
+              "required": true,
+              "type": "string",
+              "paramType": "form",
+              "allowMultiple": false
+            },
+            {
+              "name": "userEntitlementId",
+              "description": "Users entitlement ID or user identification",
+              "required": true,
+              "type": "string",
+              "paramType": "form",
+              "allowMultiple": false
+            },
+            {
+              "name": "osVersion",
+              "description": "iOS Version of the device",
+              "required": false,
+              "type": "string",
+              "paramType": "form",
+              "allowMultiple": false
+            },
+            {
+              "name": "userId",
+              "description": "User ID used for cross platform identification",
+              "required": false,
+              "type": "string",
+              "paramType": "form",
+              "allowMultiple": false
+            },
+            {
+              "name": "sessionId",
+              "description": "HTTP Session ID",
+              "required": false,
+              "type": "string",
+              "paramType": "form",
+              "allowMultiple": false
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 200,
+              "message": "OK - device created or updated.",
+              "responseModel": "results"
+            },
+            {
+              "code": 400,
+              "message": "Bad Request - if any of the required parameters are missing or invalid.",
+              "responseModel": "BadRequestException"
+            },
+            {
+              "code": 403,
+              "message": "Forbidden - if requester does not have permission to perform this operation.",
+              "responseModel": "Response"
+            },
+            {
+              "code": 503,
+              "message": "Service Unavailable - if any of the third party services are unavailable.",
+              "responseModel": "Response"
+            }
+          ]
+        },
+        {
+          "method": "POST",
+          "summary": "Create device for Apple iOS",
+          "notes": "Creates a device entry for an application that is installed on an iOS device using a multipart request. The application will call this API to register itself withe the RPS system. The RPS service will use this information to send notifications to devices that have installed this application.",
+          "type": "results",
+          "nickname": "createIosDevice2",
+          "produces": [
+            "application/json"
+          ],
+          "consumes": [
+            "multipart/form-data"
+          ],
+          "parameters": [
+            {
+              "name": "x-notification-client-id",
+              "description": "An identifier of the application (client) that is sending the notification.",
+              "required": true,
+              "type": "string",
+              "paramType": "header",
+              "allowMultiple": false
+            },
+            {
+              "name": "x-tenant-id",
+              "description": "Tenant ID to create the device entry in",
+              "required": true,
+              "type": "string",
+              "paramType": "body",
+              "allowMultiple": false
+            },
+            {
+              "name": "deviceToken",
+              "description": "Device token value to store. It is base64 encoded.",
+              "required": true,
+              "type": "string",
+              "paramType": "body",
+              "allowMultiple": false
+            },
+            {
+              "name": "deviceType",
+              "description": "Either phone or tablet.",
+              "required": true,
+              "type": "string",
+              "paramType": "body",
+              "allowMultiple": false
+            },
+            {
+              "name": "isProduction",
+              "description": "Is it for a Production app - true or false.",
+              "required": false,
+              "type": "boolean",
+              "paramType": "body",
+              "allowMultiple": false
+            },
+            {
+              "name": "isNewsstand",
+              "description": "Is it for a Newsstand app - true or false.",
+              "required": false,
+              "type": "boolean",
+              "paramType": "body",
+              "allowMultiple": false
+            },
+            {
+              "name": "deviceDimension",
+              "description": "Device screen size (example 1024x768).",
+              "required": true,
+              "type": "string",
+              "paramType": "body",
+              "allowMultiple": false
+            },
+            {
+              "name": "applicationId",
+              "description": "Apple bundleId.",
+              "required": true,
+              "type": "string",
+              "paramType": "body",
+              "allowMultiple": false
+            },
+            {
+              "name": "applicationVersion",
+              "description": "Application version on device.",
+              "required": true,
+              "type": "string",
+              "paramType": "body",
+              "allowMultiple": false
+            },
+            {
+              "name": "osVersion",
+              "description": "iOS Version of the device.",
+              "required": true,
+              "type": "string",
+              "paramType": "body",
+              "allowMultiple": false
+            },
+            {
+              "name": "userId",
+              "description": "User ID used for cross platform identification.",
+              "required": false,
+              "type": "string",
+              "paramType": "body",
+              "allowMultiple": false
+            },
+            {
+              "name": "userEntitlementId",
+              "description": "Users entitlement ID or user identification.",
+              "required": true,
+              "type": "string",
+              "paramType": "body",
+              "allowMultiple": false
+            },
+            {
+              "name": "sessionId",
+              "description": "HTTP Session ID.",
+              "required": false,
+              "type": "string",
+              "paramType": "body",
+              "allowMultiple": false
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 200,
+              "message": "OK - device created or updated.",
+              "responseModel": "results"
+            },
+            {
+              "code": 400,
+              "message": "Bad Request - if any of the required parameters are missing or invalid.",
+              "responseModel": "BadRequestException"
+            },
+            {
+              "code": 403,
+              "message": "Forbidden - if requester does not have permission to perform this operation.",
+              "responseModel": "Response"
+            },
+            {
+              "code": 503,
+              "message": "Service Unavailable - if any of the third party services are unavailable.",
+              "responseModel": "Response"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/devices/android",
+      "operations": [
+        {
+          "method": "POST",
+          "summary": "Create device for Android OS",
+          "notes": "Creates a device entry for an application that is installed on an Android device using a multipart request. The application will call this API to register itself withe the RPS system. The RPS service will use this information to send notifications to devices that have installed this application.",
+          "type": "results",
+          "nickname": "createAndroidDevice",
+          "produces": [
+            "application/json"
+          ],
+          "consumes": [
+            "multipart/form-data"
+          ],
+          "parameters": [
+            {
+              "name": "x-notification-client-id",
+              "description": "An identifier of the application (client) that is sending the notification.",
+              "required": true,
+              "type": "string",
+              "paramType": "header",
+              "allowMultiple": false
+            },
+            {
+              "name": "x-tenant-id",
+              "description": "Tenant ID to create the device entry in",
+              "required": true,
+              "type": "string",
+              "paramType": "body",
+              "allowMultiple": false
+            },
+            {
+              "name": "deviceToken",
+              "description": "Device token value to store. It is base64 encoded.",
+              "required": true,
+              "type": "string",
+              "paramType": "body",
+              "allowMultiple": false
+            },
+            {
+              "name": "deviceType",
+              "description": "Either phone or tablet.",
+              "required": true,
+              "type": "string",
+              "paramType": "body",
+              "allowMultiple": false
+            },
+            {
+              "name": "deviceDimension",
+              "description": "Device screen size (example 1024x768).",
+              "required": true,
+              "type": "string",
+              "paramType": "body",
+              "allowMultiple": false
+            },
+            {
+              "name": "projectNumber",
+              "description": "Android Project Number Similar to bundleId for Apple.",
+              "required": true,
+              "type": "string",
+              "paramType": "body",
+              "allowMultiple": false
+            },
+            {
+              "name": "modelNumber",
+              "description": "Model Number of device.",
+              "required": true,
+              "type": "string",
+              "paramType": "body",
+              "allowMultiple": false
+            },
+            {
+              "name": "androidId",
+              "description": "Android ID of device.",
+              "required": false,
+              "type": "string",
+              "paramType": "body",
+              "allowMultiple": false
+            },
+            {
+              "name": "store",
+              "description": "Android Store. Currently only \"Google Play\" supported.",
+              "required": true,
+              "type": "string",
+              "paramType": "body",
+              "allowMultiple": false
+            },
+            {
+              "name": "applicationVersion",
+              "description": "Application version on device.",
+              "required": true,
+              "type": "string",
+              "paramType": "body",
+              "allowMultiple": false
+            },
+            {
+              "name": "osVersion",
+              "description": "Android OS version.",
+              "required": false,
+              "type": "string",
+              "paramType": "body",
+              "allowMultiple": false
+            },
+            {
+              "name": "userId",
+              "description": "User ID used for cross platform identification.",
+              "required": false,
+              "type": "string",
+              "paramType": "body",
+              "allowMultiple": false
+            },
+            {
+              "name": "userEntitlementId",
+              "description": "Users entitlement ID or user identification.",
+              "required": true,
+              "type": "string",
+              "paramType": "body",
+              "allowMultiple": false
+            },
+            {
+              "name": "sessionId",
+              "description": "HTTP Session ID.",
+              "required": false,
+              "type": "string",
+              "paramType": "body",
+              "allowMultiple": false
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 200,
+              "message": "OK - device created or updated.",
+              "responseModel": "results"
+            },
+            {
+              "code": 400,
+              "message": "Bad Request - if any of the required parameters are missing or invalid.",
+              "responseModel": "BadRequestException"
+            },
+            {
+              "code": 403,
+              "message": "Forbidden - if requester does not have permission to perform this operation.",
+              "responseModel": "Response"
+            },
+            {
+              "code": 503,
+              "message": "Service Unavailable - if any of the third party services are unavailable.",
+              "responseModel": "Response"
+            }
+          ]
+        },
+        {
+          "method": "POST",
+          "summary": "Create device for Android OS",
+          "notes": "Creates a device entry for an application that is installed on an Android device using URL-encoded form. The application will call this API to register itself withe the RPS system. The RPS service will use this information to send notifications to devices that have installed this application.",
+          "type": "results",
+          "nickname": "createAndroidDevice2",
+          "produces": [
+            "application/json"
+          ],
+          "consumes": [
+            "application/x-www-form-urlencoded"
+          ],
+          "parameters": [
+            {
+              "name": "x-notification-client-id",
+              "description": "An identifier of the application (client) that is sending the notification.",
+              "required": true,
+              "type": "string",
+              "paramType": "header",
+              "allowMultiple": false
+            },
+            {
+              "name": "x-tenant-id",
+              "description": "Tenant ID to create the device entry with",
+              "required": true,
+              "type": "string",
+              "paramType": "header",
+              "allowMultiple": false
+            },
+            {
+              "name": "deviceToken",
+              "description": "Device token value to store.",
+              "required": true,
+              "type": "string",
+              "paramType": "form",
+              "allowMultiple": false
+            },
+            {
+              "name": "deviceType",
+              "description": "Either phone or tablet.",
+              "required": true,
+              "type": "string",
+              "paramType": "form",
+              "allowMultiple": false
+            },
+            {
+              "name": "deviceDimension",
+              "description": "Device screen size (example 1024x768)",
+              "required": true,
+              "type": "string",
+              "paramType": "form",
+              "allowMultiple": false
+            },
+            {
+              "name": "projectNumber",
+              "description": "Android Project Number Similar to bundleId for Apple",
+              "required": true,
+              "type": "string",
+              "paramType": "form",
+              "allowMultiple": false
+            },
+            {
+              "name": "modelNumber",
+              "description": "Model Number of device",
+              "required": true,
+              "type": "string",
+              "paramType": "form",
+              "allowMultiple": false
+            },
+            {
+              "name": "androidId",
+              "description": "Android ID of device",
+              "required": false,
+              "type": "string",
+              "paramType": "form",
+              "allowMultiple": false
+            },
+            {
+              "name": "store",
+              "description": "Android Store. Currently only Google Play supported.",
+              "required": true,
+              "type": "string",
+              "paramType": "form",
+              "allowMultiple": false
+            },
+            {
+              "name": "applicationVersion",
+              "description": "Viewer Version on device",
+              "required": true,
+              "type": "string",
+              "paramType": "form",
+              "allowMultiple": false
+            },
+            {
+              "name": "userEntitlementId",
+              "description": "Users entitlement ID or user identification.",
+              "required": true,
+              "type": "string",
+              "paramType": "form",
+              "allowMultiple": false
+            },
+            {
+              "name": "osVersion",
+              "description": "Android OS Version",
+              "required": false,
+              "type": "string",
+              "paramType": "form",
+              "allowMultiple": false
+            },
+            {
+              "name": "userId",
+              "description": "User ID used for cross platform identification",
+              "required": false,
+              "type": "string",
+              "paramType": "form",
+              "allowMultiple": false
+            },
+            {
+              "name": "sessionId",
+              "description": "HTTP Session ID",
+              "required": false,
+              "type": "string",
+              "paramType": "form",
+              "allowMultiple": false
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 200,
+              "message": "OK - device created or updated.",
+              "responseModel": "results"
+            },
+            {
+              "code": 400,
+              "message": "Bad Request - if any of the required parameters are missing or invalid.",
+              "responseModel": "BadRequestException"
+            },
+            {
+              "code": 403,
+              "message": "Forbidden - if requester does not have permission to perform this operation.",
+              "responseModel": "Response"
+            },
+            {
+              "code": 503,
+              "message": "Service Unavailable - if any of the third party services are unavailable.",
+              "responseModel": "Response"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/devices/android/{projectNumber}/deviceCount",
+      "operations": [
+        {
+          "method": "GET",
+          "summary": "Gets the number of devices for this account/projectName.",
+          "notes": "Returns whether this request has any valid devices based on applicationId (for iOS, isProdcution will be used to further refine the search based on production or sandbox devices.",
+          "type": "hasDevices",
+          "nickname": "deviceCountAndroid",
+          "produces": [
+            "Boolean"
+          ],
+          "parameters": [
+            {
+              "name": "x-notification-client-id",
+              "description": "An identifier of the application (client) that is sending the notification.",
+              "required": true,
+              "type": "string",
+              "paramType": "header",
+              "allowMultiple": false
+            },
+            {
+              "name": "x-tenant-id",
+              "description": "Tenant Id",
+              "required": true,
+              "type": "string",
+              "paramType": "header",
+              "allowMultiple": false
+            },
+            {
+              "name": "projectNumber",
+              "description": "Projectnumber used to check for registered android devices",
+              "required": true,
+              "type": "string",
+              "paramType": "path",
+              "allowMultiple": false
+            },
+            {
+              "name": "segmentDef",
+              "description": "Segmentation definition used to filter the devices IDs",
+              "required": false,
+              "type": "string",
+              "paramType": "query",
+              "allowMultiple": false
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 200,
+              "message": "OK - determined if there are any devices for the given applicationId.",
+              "responseModel": "hasDevices"
+            },
+            {
+              "code": 400,
+              "message": "Bad Request - if any of the required parameters are missing or invalid.",
+              "responseModel": "BadRequestException"
+            },
+            {
+              "code": 403,
+              "message": "Forbidden - if requester does not have permission to perform this operation.",
+              "responseModel": "Response"
+            },
+            {
+              "code": 503,
+              "message": "Service Unavailable - if any of the third party services are unavailable.",
+              "responseModel": "Response"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/devices/windows/{windowsNameIdentity}/deviceCount",
+      "operations": [
+        {
+          "method": "GET",
+          "summary": "Gets the number of devices for this account/nameIdentifier.",
+          "notes": "Returns whether this request has any valid devices based on applicationId (for iOS, isProdcution will be used to further refine the search based on production or sandbox devices.",
+          "type": "hasDevices",
+          "nickname": "deviceCountWindows",
+          "produces": [
+            "Boolean"
+          ],
+          "parameters": [
+            {
+              "name": "x-notification-client-id",
+              "description": "An identifier of the application (client) that is sending the notification.",
+              "required": true,
+              "type": "string",
+              "paramType": "header",
+              "allowMultiple": false
+            },
+            {
+              "name": "x-tenant-id",
+              "description": "Tenant Id",
+              "required": true,
+              "type": "string",
+              "paramType": "header",
+              "allowMultiple": false
+            },
+            {
+              "name": "windowsNameIdentity",
+              "description": "Name Identity used to check for registered windows devices",
+              "required": true,
+              "type": "string",
+              "paramType": "path",
+              "allowMultiple": false
+            },
+            {
+              "name": "segmentDef",
+              "description": "Segmentation definition used to filter the devices IDs",
+              "required": false,
+              "type": "string",
+              "paramType": "query",
+              "allowMultiple": false
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 200,
+              "message": "OK - determined if there are any devices for the given applicationId.",
+              "responseModel": "hasDevices"
+            },
+            {
+              "code": 400,
+              "message": "Bad Request - if any of the required parameters are missing or invalid.",
+              "responseModel": "BadRequestException"
+            },
+            {
+              "code": 403,
+              "message": "Forbidden - if requester does not have permission to perform this operation.",
+              "responseModel": "Response"
+            },
+            {
+              "code": 503,
+              "message": "Service Unavailable - if any of the third party services are unavailable.",
+              "responseModel": "Response"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/devices/ios/{bundleId}/deviceCount",
+      "operations": [
+        {
+          "method": "GET",
+          "summary": "Gets the number of devices for this account/bundleId.",
+          "notes": "Returns whether this request has any valid devices based on applicationId (for iOS, isProdcution will be used to further refine the search based on production or sandbox devices.",
+          "type": "hasDevices",
+          "nickname": "deviceCountIOS",
+          "produces": [
+            "Boolean"
+          ],
+          "parameters": [
+            {
+              "name": "x-notification-client-id",
+              "description": "An identifier of the application (client) that is sending the notification.",
+              "required": true,
+              "type": "string",
+              "paramType": "header",
+              "allowMultiple": false
+            },
+            {
+              "name": "x-tenant-id",
+              "description": "Tenant Id",
+              "required": true,
+              "type": "string",
+              "paramType": "header",
+              "allowMultiple": false
+            },
+            {
+              "name": "isProduction",
+              "description": "Is this a production app (this value is required)",
+              "required": true,
+              "type": "boolean",
+              "paramType": "query",
+              "allowMultiple": false
+            },
+            {
+              "name": "bundleId",
+              "description": "BundleId used to check for registered iOS devices",
+              "required": true,
+              "type": "string",
+              "paramType": "path",
+              "allowMultiple": false
+            },
+            {
+              "name": "segmentDef",
+              "description": "Segmentation definition used to filter the devices IDs",
+              "required": false,
+              "type": "string",
+              "paramType": "query",
+              "allowMultiple": false
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 200,
+              "message": "OK - determined if there are any devices for the given applicationId.",
+              "responseModel": "hasDevices"
+            },
+            {
+              "code": 400,
+              "message": "Bad Request - if any of the required parameters are missing or invalid.",
+              "responseModel": "BadRequestException"
+            },
+            {
+              "code": 403,
+              "message": "Forbidden - if requester does not have permission to perform this operation.",
+              "responseModel": "Response"
+            },
+            {
+              "code": 503,
+              "message": "Service Unavailable - if any of the third party services are unavailable.",
+              "responseModel": "Response"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/devices/windows",
+      "operations": [
+        {
+          "method": "POST",
+          "summary": "Create device for Windows OS",
+          "notes": "Creates a device entry for an application that is installed on a Windows device using a multipart request. The application will call this API to register itself withe the RPS system. The RPS service will use this information to send notifications to devices that have installed this application.",
+          "type": "results",
+          "nickname": "createWindowsDevice",
+          "produces": [
+            "application/json"
+          ],
+          "consumes": [
+            "multipart/form-data"
+          ],
+          "parameters": [
+            {
+              "name": "x-notification-client-id",
+              "description": "An identifier of the application (client) that is sending the notification.",
+              "required": true,
+              "type": "string",
+              "paramType": "body",
+              "allowMultiple": false
+            },
+            {
+              "name": "x-tenant-id",
+              "description": "Tenant ID to create the device entry in",
+              "required": true,
+              "type": "string",
+              "paramType": "body",
+              "allowMultiple": false
+            },
+            {
+              "name": "deviceToken",
+              "description": "ID for a specific Windows device.",
+              "required": true,
+              "type": "string",
+              "paramType": "body",
+              "allowMultiple": false
+            },
+            {
+              "name": "deviceType",
+              "description": "Either phone or tablet.",
+              "required": true,
+              "type": "string",
+              "paramType": "body",
+              "allowMultiple": false
+            },
+            {
+              "name": "deviceDimension",
+              "description": "Device screen size (example 1024x768).",
+              "required": true,
+              "type": "string",
+              "paramType": "body",
+              "allowMultiple": false
+            },
+            {
+              "name": "windowsNameIdentity",
+              "description": "Windows Project Name.",
+              "required": true,
+              "type": "string",
+              "paramType": "body",
+              "allowMultiple": false
+            },
+            {
+              "name": "windowsPublisherId",
+              "description": "ID of application publisher. Can be used on multiple apps.",
+              "required": true,
+              "type": "string",
+              "paramType": "body",
+              "allowMultiple": false
+            },
+            {
+              "name": "applicationVersion",
+              "description": "Application version on device.",
+              "required": true,
+              "type": "string",
+              "paramType": "body",
+              "allowMultiple": false
+            },
+            {
+              "name": "osVersion",
+              "description": "Installed version of Windows.",
+              "required": false,
+              "type": "string",
+              "paramType": "body",
+              "allowMultiple": false
+            },
+            {
+              "name": "userId",
+              "description": "User ID used for cross platform identification.",
+              "required": false,
+              "type": "string",
+              "paramType": "body",
+              "allowMultiple": false
+            },
+            {
+              "name": "userEntitlementId",
+              "description": "Users entitlement ID or user identification.",
+              "required": true,
+              "type": "string",
+              "paramType": "body",
+              "allowMultiple": false
+            },
+            {
+              "name": "sessionId",
+              "description": "HTTP Session ID.",
+              "required": false,
+              "type": "string",
+              "paramType": "body",
+              "allowMultiple": false
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 200,
+              "message": "OK - device created or updated.",
+              "responseModel": "results"
+            },
+            {
+              "code": 400,
+              "message": "Bad Request - if any of the required parameters are missing or invalid.",
+              "responseModel": "BadRequestException"
+            },
+            {
+              "code": 403,
+              "message": "Forbidden - if requester does not have permission to perform this operation.",
+              "responseModel": "Response"
+            },
+            {
+              "code": 503,
+              "message": "Service Unavailable - if any of the third party services are unavailable.",
+              "responseModel": "Response"
+            }
+          ]
+        },
+        {
+          "method": "POST",
+          "summary": "Create device for Windows OS",
+          "notes": "Creates a device entry for an application that is installed on a Windows device using URL-encoded form. The application will call this API to register itself withe the RPS system. The RPS service will use this information to send notifications to devices that have installed this application.",
+          "type": "results",
+          "nickname": "createWindowsDevice2",
+          "produces": [
+            "application/json"
+          ],
+          "consumes": [
+            "application/x-www-form-urlencoded"
+          ],
+          "parameters": [
+            {
+              "name": "x-notification-client-id",
+              "description": "An identifier of the application (client) that is sending the notification.",
+              "required": true,
+              "type": "string",
+              "paramType": "header",
+              "allowMultiple": false
+            },
+            {
+              "name": "x-tenant-id",
+              "description": "Tenant ID to create the device entry in",
+              "required": true,
+              "type": "string",
+              "paramType": "header",
+              "allowMultiple": false
+            },
+            {
+              "name": "deviceToken",
+              "description": "ID for a specific Windows device",
+              "required": true,
+              "type": "string",
+              "paramType": "form",
+              "allowMultiple": false
+            },
+            {
+              "name": "deviceType",
+              "description": "Either Phone, Tablet or possibly Desktop",
+              "required": true,
+              "type": "string",
+              "paramType": "form",
+              "allowMultiple": false
+            },
+            {
+              "name": "deviceDimension",
+              "description": "Pixel dimensions of the target device",
+              "required": true,
+              "type": "string",
+              "paramType": "form",
+              "allowMultiple": false
+            },
+            {
+              "name": "windowsNameIdentity",
+              "description": "Windows Project Name",
+              "required": true,
+              "type": "string",
+              "paramType": "form",
+              "allowMultiple": false
+            },
+            {
+              "name": "windowsPublisherId",
+              "description": "ID of application publisher. Can be used on multiple apps.",
+              "required": true,
+              "type": "string",
+              "paramType": "form",
+              "allowMultiple": false
+            },
+            {
+              "name": "applicationVersion",
+              "description": "Version of the viewer",
+              "required": true,
+              "type": "string",
+              "paramType": "form",
+              "allowMultiple": false
+            },
+            {
+              "name": "userEntitlementId",
+              "description": "Users entitlement ID or user identification",
+              "required": true,
+              "type": "string",
+              "paramType": "form",
+              "allowMultiple": false
+            },
+            {
+              "name": "osVersion",
+              "description": "Installed version of Windows",
+              "required": false,
+              "type": "string",
+              "paramType": "form",
+              "allowMultiple": false
+            },
+            {
+              "name": "userId",
+              "description": "Common User ID",
+              "required": false,
+              "type": "string",
+              "paramType": "form",
+              "allowMultiple": false
+            },
+            {
+              "name": "sessionId",
+              "description": "HTTP Session ID",
+              "required": false,
+              "type": "string",
+              "paramType": "form",
+              "allowMultiple": false
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 200,
+              "message": "OK - device created or updated.",
+              "responseModel": "results"
+            },
+            {
+              "code": 400,
+              "message": "Bad Request - if any of the required parameters are missing or invalid.",
+              "responseModel": "BadRequestException"
+            },
+            {
+              "code": 403,
+              "message": "Forbidden - if requester does not have permission to perform this operation.",
+              "responseModel": "Response"
+            },
+            {
+              "code": 503,
+              "message": "Service Unavailable - if any of the third party services are unavailable.",
+              "responseModel": "Response"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "models": {
+    "results": {
+      "id": "results",
+      "properties": {
+        "status": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        }
+      }
+    },
+    "BadRequestException": {
+      "id": "BadRequestException",
+      "properties": {
+        "response": {
+          "$ref": "Response"
+        },
+        "cause": {
+          "$ref": "Throwable"
+        },
+        "message": {
+          "type": "string"
+        },
+        "localizedMessage": {
+          "type": "string"
+        },
+        "stackTrace": {
+          "type": "array",
+          "items": {
+            "$ref": "StackTraceElement"
+          }
+        },
+        "suppressed": {
+          "type": "array",
+          "items": {
+            "$ref": "Throwable"
+          }
+        }
+      }
+    },
+    "Response": {
+      "id": "Response",
+      "properties": {
+        "metadata": {
+          "$ref": "javax.ws.rs.core.MultivaluedMap<java.lang.String, java.lang.Object>"
+        },
+        "entity": {
+          "$ref": "Object"
+        },
+        "status": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "hasDevices": {
+      "id": "hasDevices",
+      "properties": {
+        "deviceCount": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    }
+  }
+}

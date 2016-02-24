@@ -1,0 +1,80 @@
+{
+  "apiVersion": "1.0",
+  "swaggerVersion": "1.2",
+  "basePath": "http://localhost/release.2015.6",
+  "resourcePath": "/Publish",
+  "apis": [
+    {
+      "path": "/job",
+      "operations": [
+        {
+          "method": "POST",
+          "summary": "Publish an entity or set of entities or Preview",
+          "notes": "Publish an entity immediately.<br/><br/>This is an asynchronous call that returns a <b>success</b> when the publish has started for an entity that has been published immediately<br/><br/>When specifying the <b>workflowType</b>, the workflow must match. I.e. you cannot set workflowType to publish and use the publicationId field, since it is only available to  preview workflowType. See below for the complete one-to-one associations:<br/> <table style='border: 1px solid'><thead><tr><th style='border-right: 1px solid #000000;' bgcolor='#DBDEDE'>workflowType</th><th bgcolor='#DBDEDE'>workflow</th></thead><tbody><tr><td style='border-right: 1px solid #000000;'>publish</td><td>entities</td></tr><tr><td style='border-right: 1px solid #000000;'>unpublish</td><td>entities</td></tr><tr><td style='border-right: 1px solid #000000;'>layout</td><td>entities</td></tr><tr><td style='border-right: 1px solid #000000;'>unpublishLayout</td><td>entities</td></tr><tr><td style='border-right: 1px solid #000000;'>preview</td><td>publicationId</td></tr><tr><td style='border-right: 1px solid #000000;'>publishCollection</td><td>collectionUrl</td></tr></tbody></table><br/><br/>General usage notes:<br/><br/>- One can only publish the latest version of an entity<br/>- One must always specify the version of the entity being published",
+          "type": "void",
+          "nickname": "executeJob",
+          "produces": [
+            "application/json"
+          ],
+          "consumes": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "name": "body",
+              "description": "{<br/><b>\"workflowType\"</b>: { <br/>\"type\": \"string\", <br/>\"required\": true, <br/>\"description\": specifies the type of workflow<br/>}<br/><b> \"entities\" </b>: {<br/>\"type\": Array of strings of the format /publication/{publicationId}/{entityType}/{entityName};version={entity-version},<br/>\"required\": false, <br/>\"description\": Array of relative paths of entities to process - only applies to workflowTypes publish, unpublish, layout and unpublishLayout<br/>} <br/><b> publicationId \" </b>: {<br/>\"type\": String,<br/>\"required\": false, <br/>\"description\": The GUID that represents the publication - only applies to workflowType preview<br/>} <br/><b> collectionUrl \" </b>: {<br/>\"type\": String,<br/>\"required\": false, <br/>\"description\": The relative path of the collection that needs to be published - only applies to workflowType publishCollection<br/>} <br/>}",
+              "required": false,
+              "type": "JobBody",
+              "paramType": "body",
+              "allowMultiple": false
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 200,
+              "message": "Successfully started or scheduled the job"
+            },
+            {
+              "code": 400,
+              "message": "Bad Request - one of the parameters in request body was invalid; more detail in the response body"
+            },
+            {
+              "code": 403,
+              "message": "Forbidden - user's quota exceeded"
+            },
+            {
+              "code": 404,
+              "message": "Entity not found"
+            },
+            {
+              "code": 409,
+              "message": "Version conflict - specified version is not the latest"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "models": {
+    "JobBody": {
+      "id": "JobBody",
+      "properties": {
+        "workflowType": {
+          "type": "string"
+        },
+        "entities": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "publicationId": {
+          "type": "string"
+        },
+        "collectionUrl": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

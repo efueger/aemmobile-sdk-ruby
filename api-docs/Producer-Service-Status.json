@@ -1,0 +1,106 @@
+{
+  "apiVersion": "1.0",
+  "swaggerVersion": "1.2",
+  "basePath": "http://localhost/release.2015.6",
+  "resourcePath": "/Status",
+  "apis": [
+    {
+      "path": "/status/{publicationID :[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12} }/{entityType :(article|banner|cardTemplate|collection|layout|publication|sharedContent) }/{entityName :[0-9a-zA-Z]{1}[0-9a-zA-Z_ %.-]{0,63} }",
+      "operations": [
+        {
+          "method": "GET",
+          "summary": "Status of the entity",
+          "notes": "Returns status information about the entity as a JSON object.<br><br>The returned object is a list of statuses. Each object denotes the status of a particular operation performed on or with respect to the entity. Each status object will contain the following fields: <br>\"aspect\": Identifies the operation type. The possible values for aspect are: \"publishing\", \"preview\", \"ingestion\" and \"audit\". <br>\"subAspect\" : can denote a sub-operation or stage. <br>\"eventType\": denotes the status of a given operation. Possible values are: \"success\", \"progress\" or \"failure\" <br>\"eventDate\" : contains the date and time at which the status object was last changed <br> \"lastSuccessDate\": contains the date and time at which the eventType was last set to \"success\" <br>\"numerator\": integer numerator used with \"denominator\" to calculate percentage complete <br>\"denominator\": integer denominator used with \"numerator\" to calculate percentage complete <br>\"message\": contains a descriptive message about the status <br>\"code\": this is used to enable the Content Dashboard UI to substitute a localized message.\"extraData\": contains any extra data that gets logged during an operation and/or sub-operation used internally by the server to track and/or record the status. <br><br>Publishing:<br>The \"aspect\" field contains \"publishing\" as the value in case of a publishing operation. Publishing does not use the following fields: \"subAspect\", \"numerator\", \"denominator\" and \"extraData\"<br>The \"message\" and \"code\" fields are used only in case of a publish failure. These fields contain null values when the \"eventType\" is \"success\" or \"progress\"<br><br>Preview:<br>The \"aspect\" field contains \"preview\" as the value in case of a preview operation. Preview does not use the \"subAspect\" field. <br>Preview processes the entities in a publication in pages. The \"numerator\" and \"denominator\" fields denote the current page that is being processed and the total number of pages to process, respectively.<br>The \"message\" and \"code\" fields are used only in case of a preview failure. These fields contain null values when the \"eventType\" is \"success\" or \"progress\" <br>\"extraData\" contains a string representation of a JSON object that contains the following fields: <br>\"lastPreviewDate\", date and time at which the preview operation was last completed, recorded in the case of a success as well as a failure, logged as a timestamp <br>\"internalPreviewFailureFlag\" a flag indicating if an entity failed to preview during the preview operation. <br><br><br><br>Ingestion happens in various stages which are described as follows:<br>&nbsp;&nbsp;ERROR (\"Error\", \"Unable to complete upload request\", \"000\", \"failure\", 0, 6),<br>&nbsp;&nbsp;STARTED (\"Started\", \"Started the process to accept the zip file\", ,\"progress\", 1, 6),<br>&nbsp;&nbsp;RECEIVED (\"Received\", \"Received article zip file\", \"progress\", 2, 6),<br>&nbsp;&nbsp;EXTRACTED (\"Extracted\", \"Retrieved file from SharedCloud and unzipped it\", \"progress\", 3, 6),<br>&nbsp;&nbsp;VALIDATED (\"Validated\", \"Validated the manifest and compared it to the contents of the zip successfully\", \"progress\", 4, 6),<br>&nbsp;&nbsp;UPLOADED (\"Uploaded\", \"Uploaded the contents of the article to the Producer Service\", \"progress\", 5, 6),<br>&nbsp;&nbsp;SEALED (\"Sealed\", \"Sealed the contents of the article with the Producer Service\", \"success\", 6, 6)<br>The last two numbers are the numerator and denominator of the progress of the ingestion request.<br>The first two stages happen synchronously in the INGS web service. The subsequent stages (3 - 6) happen asynchronously and the progress must be tracked with the PECS Status API.<br><br>For the Ingestion portion of the Status API, here are the parameters:<br>- Aspect will always be \"ingestion\"<br>- the subAspect field will be one of the stages mentioned above<br>- the eventType field can be either \"progress\", \"success\" or \"failure\"<br>- the message field will contain a descriptive message about the status<br>- the extraData field will contain the WorkFlowId used for the asynchronous SWF workflow item<br>- the code field will have a numeric code used by INGS as a key for the various messages in the message field. This is to enable the Content Dashboard client to substitute a localized message for i18n.<br>- the numerator and denominator fields describe the progress of the ingestion request according the stages mentioned above.",
+          "type": "void",
+          "nickname": "getStatus",
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "name": "publicationID",
+              "description": "Publication identifier (GUID)",
+              "defaultValue": "13a31e90-b571-4248-8e9a-d8903af1cc7d",
+              "required": true,
+              "type": "PublicationID",
+              "paramType": "path",
+              "allowMultiple": false
+            },
+            {
+              "name": "entityType",
+              "description": "Entity type, e.g. article or  collection",
+              "defaultValue": "article",
+              "required": true,
+              "type": "EntityType",
+              "paramType": "path",
+              "allowMultiple": false
+            },
+            {
+              "name": "entityName",
+              "description": "Client defined Entity name",
+              "defaultValue": "article001",
+              "required": true,
+              "type": "EntityName",
+              "paramType": "path",
+              "allowMultiple": false
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "models": {
+    "Status": {
+      "id": "Status",
+      "properties": {
+        "aspect": {
+          "$ref": "AspectType",
+          "enum": [
+            "publishing",
+            "ingestion",
+            "preview",
+            "audit",
+            "unknown"
+          ]
+        },
+        "subAspect": {
+          "type": "string"
+        },
+        "eventType": {
+          "$ref": "EventType",
+          "enum": [
+            "success",
+            "failure",
+            "progress",
+            "unknown"
+          ]
+        },
+        "eventDate": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "lastSuccessDate": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "numerator": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "denominator": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "code": {
+          "type": "string"
+        },
+        "extraData": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

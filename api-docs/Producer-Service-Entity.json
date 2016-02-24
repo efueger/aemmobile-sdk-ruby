@@ -1,0 +1,825 @@
+{
+  "apiVersion": "1.0",
+  "swaggerVersion": "1.2",
+  "basePath": "http://localhost/release.2015.6",
+  "resourcePath": "/Entity",
+  "apis": [
+    {
+      "path": "/publication/{publicationID :[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12} }/collection/{entityName :[0-9a-zA-Z]{1}[0-9a-zA-Z_ %.-]{0,63} }/contentElements",
+      "operations": [
+        {
+          "method": "PUT",
+          "summary": "Update an existing collection's content elements list.",
+          "notes": "Set a collection's content elements to the specified list. Returns the updated collection metadata with an updated 'contentElements' value.<br><br>This call must specify the latest version of the collection in the 'version' matrix parameter associated with the collection's name,<br>. e.g. collectionName;<b>version=1435084576123</b> <br>A 'Conflict' (409) response will be returned if the version specified is not the latest, or no version is specified. <br> Notes on Content Elements : <br> Content Elements will be validated to ensure that content elements version is the head, i.e. the latest version at the <br> time this request is received. If the content elements contain an older version, BadRequestException (400 response code) <br> will be returned back to the client.  <br> If no version is specified for the content elements, Latest version will be used on the server.  <br>",
+          "type": "void",
+          "nickname": "updateCollectionContentElements",
+          "produces": [
+            "application/json"
+          ],
+          "consumes": [
+            "application/json",
+            "application/vnd.adobe.entity+json"
+          ],
+          "parameters": [
+            {
+              "name": "publicationID",
+              "description": "Publication identifier (GUID)",
+              "defaultValue": "1bb5bcf0-d173-43db-8fc1-87fe64b66dfa",
+              "required": true,
+              "type": "PublicationID",
+              "paramType": "path",
+              "allowMultiple": false
+            },
+            {
+              "name": "entityName",
+              "description": "Client defined Entity name",
+              "defaultValue": "june_2015;version=14315323790000",
+              "required": true,
+              "type": "PathSegment",
+              "paramType": "path",
+              "allowMultiple": false
+            },
+            {
+              "name": "body",
+              "description": "List of entity hrefs",
+              "defaultValue": "[\n  {\n    \"href\": \"/publication/1bb5bcf0-d173-43db-8fc1-87fe64b66dfa/article/september_2011;version=1416579306389\"\n  }, {\n    \"href\": \"/publication/1bb5bcf0-d173-43db-8fc1-87fe64b66dfa/banner/september_banner_2011;version=1416535137810\"\n  }\n]",
+              "required": false,
+              "type": "List",
+              "paramType": "body",
+              "allowMultiple": false
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 200,
+              "message": "OK - Successfully updated collection's content elements; 'Link' response header with rel=\"latest-version\" will be the updated entity."
+            },
+            {
+              "code": 400,
+              "message": "Bad Request - one of the parameters was invalid; more detail in the response body"
+            },
+            {
+              "code": 403,
+              "message": "Forbidden - user's quota exceeded."
+            },
+            {
+              "code": 409,
+              "message": "Conflict - specified version is not the latest."
+            }
+          ]
+        },
+        {
+          "method": "GET",
+          "summary": "Retrieve an existing collection's content elements list with or without paging.",
+          "notes": "Retrieves the Collection's content elements as a list.<br>If page or pageSize is not specified, upto 450 elements would be returned regardless of how many <br>content elements are in the collection. If page is provided and pageSize is not provided, default size of the list is 25. <br> The max page size for paging operation is 200<br>",
+          "type": "void",
+          "nickname": "getCollectionContentElements",
+          "produces": [
+            "application/json"
+          ],
+          "consumes": [
+            "application/json",
+            "application/vnd.adobe.entity+json"
+          ],
+          "parameters": [
+            {
+              "name": "publicationID",
+              "description": "Publication identifier (GUID)",
+              "defaultValue": "1bb5bcf0-d173-43db-8fc1-87fe64b66dfa",
+              "required": true,
+              "type": "PublicationID",
+              "paramType": "path",
+              "allowMultiple": false
+            },
+            {
+              "name": "entityName",
+              "description": "Client defined Entity name",
+              "defaultValue": "june_2015;version=14315323790000",
+              "required": true,
+              "type": "PathSegment",
+              "paramType": "path",
+              "allowMultiple": false
+            },
+            {
+              "name": "pageSize",
+              "description": "Page size for results",
+              "defaultValue": "25",
+              "required": false,
+              "type": "integer",
+              "format": "int32",
+              "paramType": "query",
+              "allowMultiple": false
+            },
+            {
+              "name": "page",
+              "description": "Zero based page index",
+              "defaultValue": "0",
+              "required": false,
+              "type": "integer",
+              "format": "int32",
+              "paramType": "query",
+              "allowMultiple": false
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 200,
+              "message": "OK - Content Elements call was successful "
+            },
+            {
+              "code": 400,
+              "message": "Bad Request - one of the parameters was invalid; more detail in the response body"
+            },
+            {
+              "code": 404,
+              "message": "Not Found"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/publication/{publicationID :[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12} }/{entityType :(article|banner|cardTemplate|collection|layout|publication|sharedContent) }/{entityName :[0-9a-zA-Z]{1}[0-9a-zA-Z_ %.-]{0,63} }",
+      "operations": [
+        {
+          "method": "PUT",
+          "summary": "Create a new entity or update an existing entity.",
+          "notes": "Create an entity of type <b>entityType</b> in publication <b>publicationID</b>.<br><br>When updating an existing entity, the call must specify the latest version. When creating a new entity, omit the version. A 'Conflict' (409) response will be returned if the version specified is not the latest, or no version is specified for an existing entity. ",
+          "type": "void",
+          "nickname": "createOrUpdateEntity",
+          "produces": [
+            "application/json"
+          ],
+          "consumes": [
+            "application/json",
+            "application/vnd.adobe.entity+json"
+          ],
+          "parameters": [
+            {
+              "name": "publicationID",
+              "description": "Publication identifier (GUID)",
+              "defaultValue": "1bb5bcf0-d173-43db-8fc1-87fe64b66dfa",
+              "required": true,
+              "type": "PublicationID",
+              "paramType": "path",
+              "allowMultiple": false
+            },
+            {
+              "name": "entityType",
+              "description": "Entity type, e.g. article or  collection",
+              "defaultValue": "article",
+              "required": true,
+              "type": "EntityType",
+              "paramType": "path",
+              "allowMultiple": false
+            },
+            {
+              "name": "entityName",
+              "description": "Client defined Entity name",
+              "defaultValue": "september_2011",
+              "required": true,
+              "type": "EntityName",
+              "paramType": "path",
+              "allowMultiple": false
+            },
+            {
+              "name": "version",
+              "description": "An opaque string defining the entity version.",
+              "defaultValue": "1416579306389",
+              "required": false,
+              "type": "VersionID",
+              "paramType": "matrix",
+              "allowMultiple": false
+            },
+            {
+              "name": "body",
+              "description": "JSON serialization of entities new contents. Details see conceptual data model documentation.",
+              "defaultValue": "{\n  \"entityId\":\"urn:testPub.exampleCo.com:article:september_2011\",\n  \"entityName\":\"september_2011\",\n  \"entityType\":\"article\",\n  \"url\":\"http://test.exampleCo.com/articleURL\",\n  \"modified\":\"2014-10-14T13:52:34Z\",\n  \n  \"title\":\"september 2011 article\",\n  \"abstract\":\"september 2011 article abstract\",\n  \"keywords\":[\"main\"],\n  \"_links\":{\n      \"contentUrl\":{ \"href\":\"/publication/com.exampleCo.testPub/article/september_2011/contents;contentVersion=1416515498458\"},\n      \"articleFolio\": { \"href\":\"/publication/com.exampleCo.testPub/article/september_2011/contents;contentVersion=1234/manifest.json\"}\n    }\n}",
+              "required": true,
+              "type": "JSON string",
+              "paramType": "body",
+              "allowMultiple": false
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 200,
+              "message": "OK - Successfully updated an existing entity; 'Link' response header with rel=\"latest-version\" will be the updated entity."
+            },
+            {
+              "code": 201,
+              "message": "Created - Successfully created a new entity; 'Location' response header will be the newly created entity."
+            },
+            {
+              "code": 400,
+              "message": "Bad Request - one of the parameters was invalid; more detail in the response body"
+            },
+            {
+              "code": 403,
+              "message": "Forbidden - user's quota exceeded."
+            },
+            {
+              "code": 409,
+              "message": "Conflict - specified version is not the latest."
+            }
+          ]
+        },
+        {
+          "method": "DELETE",
+          "summary": "Marks the head version of an entity as deleted",
+          "notes": "Must specify the latest version of the entity for deletion.",
+          "type": "void",
+          "nickname": "deleteEntity",
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "name": "publicationID",
+              "description": "Publication identifier (GUID)",
+              "defaultValue": "1bb5bcf0-d173-43db-8fc1-87fe64b66dfa",
+              "required": true,
+              "type": "PublicationID",
+              "paramType": "path",
+              "allowMultiple": false
+            },
+            {
+              "name": "entityType",
+              "description": "Entity type, e.g. article or  collection",
+              "defaultValue": "article",
+              "required": true,
+              "type": "EntityType",
+              "paramType": "path",
+              "allowMultiple": false
+            },
+            {
+              "name": "entityName",
+              "description": "Client defined Entity name",
+              "defaultValue": "articleID001",
+              "required": true,
+              "type": "EntityName",
+              "paramType": "path",
+              "allowMultiple": false
+            },
+            {
+              "name": "version",
+              "description": "An opaque string defining the entity version.",
+              "required": true,
+              "type": "VersionID",
+              "paramType": "matrix",
+              "allowMultiple": false
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 204,
+              "message": "OK - Successfully deleted entity"
+            },
+            {
+              "code": 400,
+              "message": "Bad Request - one of the parameters was invalid; more detail in the response body"
+            },
+            {
+              "code": 404,
+              "message": "Not Found - specified entityName does not exist"
+            },
+            {
+              "code": 409,
+              "message": "Conflict - specified version is not the latest or it is published."
+            }
+          ]
+        },
+        {
+          "method": "GET",
+          "summary": "Retrieves metadata for the specified entity at the specified version",
+          "notes": "Gets the metadata from the named version; if no version is specified, the head version of  the enity is retrieved. See ??? ",
+          "type": "void",
+          "nickname": "getOneEntitysMetadata",
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "name": "publicationID",
+              "description": "Publication identifier (GUID)",
+              "defaultValue": "1bb5bcf0-d173-43db-8fc1-87fe64b66dfa",
+              "required": true,
+              "type": "PublicationID",
+              "paramType": "path",
+              "allowMultiple": false
+            },
+            {
+              "name": "entityType",
+              "description": "Entity type, e.g. article or  collection",
+              "defaultValue": "article",
+              "required": true,
+              "type": "EntityType",
+              "paramType": "path",
+              "allowMultiple": false
+            },
+            {
+              "name": "entityName",
+              "description": "Client defined Entity name",
+              "defaultValue": "articleID001",
+              "required": true,
+              "type": "EntityName",
+              "paramType": "path",
+              "allowMultiple": false
+            },
+            {
+              "name": "version",
+              "description": "An opaque string defining the entity version. Head version if not specified.",
+              "required": false,
+              "type": "VersionID",
+              "paramType": "matrix",
+              "allowMultiple": false
+            },
+            {
+              "name": "q",
+              "description": "Search string to narrow results",
+              "required": false,
+              "type": "EntityQuery",
+              "paramType": "query",
+              "allowMultiple": false
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 200,
+              "message": "OK - Successfully retrieved entity's metadata"
+            },
+            {
+              "code": 400,
+              "message": "Bad Request - one of the parameters was invalid; more detail in the response body"
+            },
+            {
+              "code": 404,
+              "message": "Not Found - Specified entity was not found"
+            },
+            {
+              "code": 410,
+              "message": "Gone - Specified entity was deleted"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/publication/{publicationID :[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12} }",
+      "operations": [
+        {
+          "method": "GET",
+          "summary": "Retrieves metadata for the publication entity at the specified version",
+          "notes": "",
+          "type": "void",
+          "nickname": "getPublicationMetadata",
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "name": "publicationID",
+              "description": "Publication identifier (GUID)",
+              "defaultValue": "1bb5bcf0-d173-43db-8fc1-87fe64b66dfa",
+              "required": true,
+              "type": "PublicationID",
+              "paramType": "path",
+              "allowMultiple": false
+            },
+            {
+              "name": "version",
+              "description": "Publication version requested; head version if not specified.",
+              "required": false,
+              "type": "VersionID",
+              "paramType": "matrix",
+              "allowMultiple": false
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 200,
+              "message": "OK - Successfully retrieved metadata"
+            },
+            {
+              "code": 400,
+              "message": "Bad Request - one of the parameters was invalid; more detail in the response body"
+            },
+            {
+              "code": 404,
+              "message": "Not Found - Specified entity was not found"
+            },
+            {
+              "code": 410,
+              "message": "Gone - Specified entity was deleted"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/publication/{publicationID :[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12} }/entity",
+      "operations": [
+        {
+          "method": "GET",
+          "summary": "Retrieves a paged list of all entities of specified types in the specified publication",
+          "notes": "<br><b>Paging parameters</b>: All responses to this API are paged. Clients may control the paging by specifying an integer <b>pageSize</b> and a zero based <b>page</b> index. Responses will include 'next' and 'prev' links to allow the client to page through all entities; the final page of results will not include a 'next' link.<br><br><b>Query parameters</b>: An optional query string defines what subset of entities are returned. For example,  \"q=keyword==cars\" would return all entities with the keyword 'cars'. <br>1. A semi-colon separated list of keywords will return only entites that have all the keywords (AND), e.g. \"q=keyword==cars;keyword==BMW\" would only include BMW cars. <br>2. Multiple entity types are specified in a comma separated list, e.g. \"q=entityType==article,entityType==collection\" would find all articles and collections.<br>3. Field values may be required with a double equals, e.g. author==Fred.<br>Relative values for numeric or date types are specified with '=gt=', '=lt=', e.g. \"q=publishedDate=lt=2014-10-14T19:09:00Z\". <br>4. 'sortField' and 'descending' control the order of results",
+          "type": "void",
+          "nickname": "getMultipleEntityTypeList",
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "name": "publicationID",
+              "description": "Publication identifier (GUID)",
+              "defaultValue": "1bb5bcf0-d173-43db-8fc1-87fe64b66dfa",
+              "required": true,
+              "type": "PublicationID",
+              "paramType": "path",
+              "allowMultiple": false
+            },
+            {
+              "name": "q",
+              "description": "Search string to narrow results",
+              "required": false,
+              "type": "EntityQuery",
+              "paramType": "query",
+              "allowMultiple": false
+            },
+            {
+              "name": "pageSize",
+              "description": "Page size for results",
+              "defaultValue": "25",
+              "required": false,
+              "type": "integer",
+              "format": "int32",
+              "paramType": "query",
+              "allowMultiple": false
+            },
+            {
+              "name": "page",
+              "description": "Zero based page index",
+              "defaultValue": "0",
+              "required": false,
+              "type": "integer",
+              "format": "int32",
+              "paramType": "query",
+              "allowMultiple": false
+            },
+            {
+              "name": "sortField",
+              "description": "Sort results by specified entity property",
+              "defaultValue": "modified",
+              "required": false,
+              "type": "string",
+              "paramType": "query",
+              "allowMultiple": false
+            },
+            {
+              "name": "descending",
+              "description": "Sort results descending (true) or ascending (false)",
+              "defaultValue": "true",
+              "required": false,
+              "type": "boolean",
+              "paramType": "query",
+              "allowMultiple": false
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 200,
+              "message": "OK - Successfully retrieved the list of entities. Link headers 'next' and 'prev' will contain URIs to retrieve the next and previous pages for this request."
+            },
+            {
+              "code": 400,
+              "message": "Bad Request - one of the parameters was invalid; more detail in the response body"
+            },
+            {
+              "code": 404,
+              "message": "Not Found"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/publication/{publicationID :[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12} }/{entityType :(article|banner|cardTemplate|collection|layout|publication|sharedContent) }",
+      "operations": [
+        {
+          "method": "GET",
+          "summary": "Retrieves a paged list of all entities of a given type in the specified publication",
+          "notes": "<br><b>Paging parameters</b>: All responses to this API are paged. Clients may control the paging by specifying an integer <b>pageSize</b> and a zero based <b>page</b> index. Responses will include 'next' and 'prev' links to allow the client to page through all entities; the final page of results will not include a 'next' link.<br><br><b>Query parameters</b>: An optional query string defines what subset of entities are returned. For example,  \"q=keyword==cars\" would return all entities with the keyword 'cars'. <br>1. A semi-colon separated list of keywords will return only entites that have all the keywords (AND), e.g. \"q=keyword==cars;keyword==BMW\" would only include BMW cars. <br>2. Multiple entity types are specified in a comma separated list, e.g. \"q=entityType==article,entityType==collection\" would find all articles and collections.<br>3. Field values may be required with a double equals, e.g. author==Fred.<br>Relative values for numeric or date types are specified with '=gt=', '=lt=', e.g. \"q=publishedDate=lt=2014-10-14T19:09:00Z\". <br>4. 'sortField' and 'descending' control the order of results",
+          "type": "void",
+          "nickname": "getAllEntitiesMetadata",
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "name": "publicationID",
+              "description": "Publication identifier (GUID)",
+              "defaultValue": "1bb5bcf0-d173-43db-8fc1-87fe64b66dfa",
+              "required": true,
+              "type": "PublicationID",
+              "paramType": "path",
+              "allowMultiple": false
+            },
+            {
+              "name": "entityType",
+              "description": "Entity type, e.g. article or  collection",
+              "defaultValue": "article",
+              "required": true,
+              "type": "EntityType",
+              "paramType": "path",
+              "allowMultiple": false
+            },
+            {
+              "name": "q",
+              "description": "Search string to narrow results",
+              "required": false,
+              "type": "EntityQuery",
+              "paramType": "query",
+              "allowMultiple": false
+            },
+            {
+              "name": "pageSize",
+              "description": "Page size for results",
+              "defaultValue": "25",
+              "required": false,
+              "type": "integer",
+              "format": "int32",
+              "paramType": "query",
+              "allowMultiple": false
+            },
+            {
+              "name": "page",
+              "description": "Zero based page index",
+              "defaultValue": "0",
+              "required": false,
+              "type": "integer",
+              "format": "int32",
+              "paramType": "query",
+              "allowMultiple": false
+            },
+            {
+              "name": "sortField",
+              "description": "Sort results by specified entity property",
+              "defaultValue": "modified",
+              "required": false,
+              "type": "string",
+              "paramType": "query",
+              "allowMultiple": false
+            },
+            {
+              "name": "descending",
+              "description": "Sort results descending (true) or ascending (false)",
+              "defaultValue": "true",
+              "required": false,
+              "type": "boolean",
+              "paramType": "query",
+              "allowMultiple": false
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 200,
+              "message": "OK - Successfully retrieved the list of entities. Link headers 'next' and 'prev' will contain URIs to retrieve the next and previous pages for this request."
+            },
+            {
+              "code": 400,
+              "message": "Bad Request - one of the parameters was invalid; more detail in the response body"
+            },
+            {
+              "code": 404,
+              "message": "Not Found"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/publication/{publicationID :[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12} }/{entityType :(article|banner|cardTemplate|collection|layout|publication|sharedContent) }/{entityName :[0-9a-zA-Z]{1}[0-9a-zA-Z_ %.-]{0,63} }/{contents:contents}",
+      "operations": [
+        {
+          "method": "PUT",
+          "summary": "Commits a set of uploads to the entity's content bucket.",
+          "notes": "A client uploads a set of assets as pending changes to the current version of the entity's content bucket.  Those pending changes are grouped according to the client-supplied Upload ID as specified by the x-dps-upload-id header parameter on those upload calls.  This commit call then instructs the server to apply those pending changes to the current version of the content bucket for this entity, and produce a new content version.  The entity is then updated to point to this new content version.<br><br>The client supplied Upload ID in the x-dps-upload-id header parameter should be a GUID, as managed by the client, to group a set of asset changes to be applied during the content commit operation.",
+          "type": "void",
+          "nickname": "commitEntityContents",
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "name": "x-dps-upload-id",
+              "description": "A GUID for grouping a set of pending content changes to be committed together",
+              "defaultValue": "89150055-eb2c-45fd-a391-a52bd2e64e2d",
+              "required": true,
+              "type": "UploadID",
+              "paramType": "header",
+              "allowMultiple": false
+            },
+            {
+              "name": "publicationID",
+              "description": "Publication identifier (GUID)",
+              "defaultValue": "1bb5bcf0-d173-43db-8fc1-87fe64b66dfa",
+              "required": true,
+              "type": "PublicationID",
+              "paramType": "path",
+              "allowMultiple": false
+            },
+            {
+              "name": "entityType",
+              "description": "Entity type, e.g. article or  collection",
+              "defaultValue": "article",
+              "required": true,
+              "type": "EntityType",
+              "paramType": "path",
+              "allowMultiple": false
+            },
+            {
+              "name": "entityName",
+              "description": "Client defined Entity name",
+              "defaultValue": "articleID001",
+              "required": true,
+              "type": "PathSegment",
+              "paramType": "path",
+              "allowMultiple": false
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 200,
+              "message": "OK - Successfully committed pending content changes; 'Link' response header with rel=\"latest-version\" will be the updated entity."
+            },
+            {
+              "code": 400,
+              "message": "Bad Request - one of the parameters was invalid; more detail in the response body"
+            },
+            {
+              "code": 403,
+              "message": "Forbidden - user's quota exceeded."
+            },
+            {
+              "code": 409,
+              "message": "Conflict - specified version is not the latest."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/publication/{publicationID :[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12} }/{entityType :(article|banner|cardTemplate|collection|layout|publication|sharedContent) }/{entityName :[0-9a-zA-Z]{1}[0-9a-zA-Z_ %.-]{0,63} }/{referencingEntityType :[0-9a-zA-Z]{1}[0-9a-zA-Z_ %.-]{0,63} }",
+      "operations": [
+        {
+          "method": "GET",
+          "summary": "Retrieves a paged list of all entities of the specified type that reference the specified entity.",
+          "notes": "<br> <b> This API returns the head(current) version for the parent entities of the specified entity.<br><br> Note: If the head version of the parent entity is deleted or does not contain the specified entity, the parent entity will not be returned. ",
+          "type": "void",
+          "nickname": "getEntityBackreferences",
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "name": "publicationID",
+              "description": "Publication identifier (GUID)",
+              "defaultValue": "1bb5bcf0-d173-43db-8fc1-87fe64b66dfa",
+              "required": true,
+              "type": "PublicationID",
+              "paramType": "path",
+              "allowMultiple": false
+            },
+            {
+              "name": "entityType",
+              "description": "Entity type, e.g. article or  collection",
+              "defaultValue": "view",
+              "required": true,
+              "type": "EntityType",
+              "paramType": "path",
+              "allowMultiple": false
+            },
+            {
+              "name": "entityName",
+              "description": "Client defined Entity name",
+              "defaultValue": "article001",
+              "required": true,
+              "type": "PathSegment",
+              "paramType": "path",
+              "allowMultiple": false
+            },
+            {
+              "name": "referencingEntityType",
+              "description": "Referencing entity type, e.g. layout or collection",
+              "defaultValue": "collection",
+              "required": true,
+              "type": "EntityType",
+              "paramType": "path",
+              "allowMultiple": false
+            },
+            {
+              "name": "pageSize",
+              "description": "Page size for results",
+              "defaultValue": "25",
+              "required": false,
+              "type": "integer",
+              "format": "int32",
+              "paramType": "query",
+              "allowMultiple": false
+            },
+            {
+              "name": "page",
+              "description": "Zero based page index",
+              "defaultValue": "0",
+              "required": false,
+              "type": "integer",
+              "format": "int32",
+              "paramType": "query",
+              "allowMultiple": false
+            },
+            {
+              "name": "sortField",
+              "description": "Sort results by specified entity property",
+              "defaultValue": "modified",
+              "required": false,
+              "type": "string",
+              "paramType": "query",
+              "allowMultiple": false
+            },
+            {
+              "name": "descending",
+              "description": "Sort results descending (true) or ascending (false)",
+              "defaultValue": "true",
+              "required": false,
+              "type": "boolean",
+              "paramType": "query",
+              "allowMultiple": false
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 200,
+              "message": "OK - Successfully retrieved the list of entities. Link headers 'next' and 'prev' will contain URIs to retrieve the next and previous pages for this request."
+            },
+            {
+              "code": 400,
+              "message": "Bad Request - one of the parameters was invalid; more detail in the response body"
+            },
+            {
+              "code": 404,
+              "message": "Not Found"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "models": {
+    "PathSegment": {
+      "id": "PathSegment",
+      "properties": {
+        "matrixParameters": {
+          "$ref": "javax.ws.rs.core.MultivaluedMap<java.lang.String, java.lang.String>"
+        },
+        "path": {
+          "type": "string"
+        }
+      }
+    },
+    "List": {
+      "id": "List",
+      "properties": {
+        "empty": {
+          "type": "boolean"
+        }
+      }
+    },
+    "EntityQuery": {
+      "id": "EntityQuery",
+      "properties": {
+        "comparisonFields": {
+          "$ref": "List[ComparisonTerm]"
+        },
+        "entityTypes": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string"
+          }
+        },
+        "includedKeywords": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "excludedKeywords": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

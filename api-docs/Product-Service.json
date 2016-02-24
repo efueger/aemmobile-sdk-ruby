@@ -1,0 +1,418 @@
+{
+  "apiVersion": "2.0",
+  "swaggerVersion": "1.2",
+  "basePath": "http://localhost/release.2015.6",
+  "resourcePath": "/products",
+  "apis": [
+    {
+      "path": "/applications/{applicationId}/products/{productId}",
+      "operations": [
+        {
+          "method": "PUT",
+          "summary": "Create or update information for a product of a publication.",
+          "notes": "<p>\n    This API is used to either create a new product or update an existing product.</p>\n<p>\n    To create a new product, the lastModifiedDate field of the input product must be null. Also contentIds field must be null.</p>\n<p>\n    If lastModifiedDate field is not null, this is an update of an existing product in its entirety. The entire product information will\n    be updated with the input product information. Client must always get the latest information of the product before editing.\n    To prevent concurrent update from another user, the lastModifiedDate of the input product must not be modified.\n</p>\n<p>\n    In both cases, client should not specify the id field of the input product. If set, the id field must be the same with product id \n    specified as path parameter.\n</p>\n<p>\n    The product is returned with lastModifiedDate field set to current time.\n</p>\n",
+          "type": "Product",
+          "nickname": "saveProduct",
+          "produces": [
+            "application/vnd.adobe.dps.product+json",
+            "application/json"
+          ],
+          "consumes": [
+            "application/vnd.adobe.dps.product+json",
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "name": "applicationId",
+              "description": "The id of publication.",
+              "required": true,
+              "type": "string",
+              "paramType": "path",
+              "allowMultiple": false
+            },
+            {
+              "name": "productId",
+              "description": "The id of product to be created or updated. Product id must be unqiue for a publication.",
+              "required": true,
+              "type": "string",
+              "paramType": "path",
+              "allowMultiple": false
+            },
+            {
+              "name": "body",
+              "required": false,
+              "type": "Product",
+              "paramType": "body",
+              "allowMultiple": false
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 200,
+              "message": "OK"
+            },
+            {
+              "code": 400,
+              "message": "Missing required parameters, code = \"invalidParameter\"",
+              "responseModel": "ErrorResponse"
+            },
+            {
+              "code": 400,
+              "message": "Path parameter product id is different than id field of input product, code = \"invalidParameter\"",
+              "responseModel": "ErrorResponse"
+            },
+            {
+              "code": 400,
+              "message": "Create a product with contentIds field not null, code = \"invalidParameter\"",
+              "responseModel": "ErrorResponse"
+            },
+            {
+              "code": 400,
+              "message": "Label field is longer than 100 characters, code = \"invalidParameter\"",
+              "responseModel": "ErrorResponse"
+            },
+            {
+              "code": 400,
+              "message": "Description field is longer than 1000 characters, code = \"invalidParameter\"",
+              "responseModel": "ErrorResponse"
+            },
+            {
+              "code": 400,
+              "message": "Invalid input product data, code = \"invalidParameter\"",
+              "responseModel": "ErrorResponse"
+            },
+            {
+              "code": 409,
+              "message": "Create a product wiht id that already exists, code = \"updateResourceConflict\"\n",
+              "responseModel": "ErrorResponse"
+            },
+            {
+              "code": 409,
+              "message": "Update a product that was modified by another user. Client should refresh with latest product information and update again, code = \"updateResourceConflict\"\n",
+              "responseModel": "ErrorResponse"
+            },
+            {
+              "code": 500,
+              "message": "Unexpected internal error, code = \"internalError\"",
+              "responseModel": "ErrorResponse"
+            },
+            {
+              "code": 503,
+              "message": "Service temporarily unavailable and retryable condition, code = \"serviceTemporarilyUnavailable\"",
+              "responseModel": "ErrorResponse"
+            }
+          ]
+        },
+        {
+          "method": "GET",
+          "summary": "Get a product information.",
+          "notes": "<p>\n    Return information for a product of a publication.\n</p>\n",
+          "type": "Product",
+          "nickname": "getProduct",
+          "produces": [
+            "application/vnd.adobe.dps.product+json",
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "name": "applicationId",
+              "description": "id of publication.",
+              "required": true,
+              "type": "string",
+              "paramType": "path",
+              "allowMultiple": false
+            },
+            {
+              "name": "productId",
+              "description": "id of product requested.",
+              "required": true,
+              "type": "string",
+              "paramType": "path",
+              "allowMultiple": false
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 200,
+              "message": "OK"
+            },
+            {
+              "code": 400,
+              "message": "Missing required parameters, code = \"invalidParameter\"",
+              "responseModel": "ErrorResponse"
+            },
+            {
+              "code": 404,
+              "message": "Product not found, code = \"resourceNotFound\"",
+              "responseModel": "ErrorResponse"
+            },
+            {
+              "code": 500,
+              "message": "Unexpected internal error, code = \"internalError\"",
+              "responseModel": "ErrorResponse"
+            },
+            {
+              "code": 503,
+              "message": "Service temporarily unavailablle and retryable condition, code = \"serviceTemporarilyUnavailable\"",
+              "responseModel": "ErrorResponse"
+            }
+          ]
+        },
+        {
+          "method": "DELETE",
+          "summary": "Delete a product.",
+          "notes": "<p>\n    Request to delete a product of a publication.\n</p>\n",
+          "type": "void",
+          "nickname": "deleteProduct",
+          "parameters": [
+            {
+              "name": "applicationId",
+              "description": "The id of publication.",
+              "required": true,
+              "type": "string",
+              "paramType": "path",
+              "allowMultiple": false
+            },
+            {
+              "name": "productId",
+              "description": "The id of product to be deleted.",
+              "required": true,
+              "type": "string",
+              "paramType": "path",
+              "allowMultiple": false
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 204,
+              "message": "No Content"
+            },
+            {
+              "code": 400,
+              "message": "Missing required parameters, code = \"invalidParameter\"",
+              "responseModel": "ErrorResponse"
+            },
+            {
+              "code": 404,
+              "message": "Product does not exist, code = \"resourceNotFound\"",
+              "responseModel": "ErrorResponse"
+            },
+            {
+              "code": 500,
+              "message": "Unexpected internal error, code = \"internalError\"",
+              "responseModel": "ErrorResponse"
+            },
+            {
+              "code": 503,
+              "message": "Service temporarily unavailable and retryable condition, code = \"serviceTemporarilyUnavailable\"",
+              "responseModel": "ErrorResponse"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/applications/{applicationId}/products",
+      "operations": [
+        {
+          "method": "GET",
+          "summary": "Get information for all products of a publication.",
+          "notes": "<p>\n    Return information for all products of a publication.\n</p>\n<p>\n    Empty list of products will be returned if publication does not exist or has no product.\n</p>\n",
+          "type": "array",
+          "items": {
+            "$ref": "Product"
+          },
+          "nickname": "getProducts",
+          "produces": [
+            "application/vnd.adobe.dps.products+json",
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "name": "applicationId",
+              "description": "The id of publication that information for all products requested.",
+              "required": true,
+              "type": "string",
+              "paramType": "path",
+              "allowMultiple": false
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 200,
+              "message": "OK"
+            },
+            {
+              "code": 400,
+              "message": "Missing required parameters, code = \"invalidParameter\"",
+              "responseModel": "ErrorResponse"
+            },
+            {
+              "code": 500,
+              "message": "Unexpected internal error, code = \"internalError\"",
+              "responseModel": "ErrorResponse"
+            },
+            {
+              "code": 503,
+              "message": "Service temporarily unavailable and retryable condition, code = \"serviceTemporarilyUnavailable\"",
+              "responseModel": "ErrorResponse"
+            }
+          ]
+        },
+        {
+          "method": "DELETE",
+          "summary": "Delete all products of a publication.",
+          "notes": "<p>\n    Request to delete all products of a publication.\n</p>\n",
+          "type": "void",
+          "nickname": "deleteProducts",
+          "parameters": [
+            {
+              "name": "applicationId",
+              "description": "The id of publication.",
+              "required": true,
+              "type": "string",
+              "paramType": "path",
+              "allowMultiple": false
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 204,
+              "message": "No Content"
+            },
+            {
+              "code": 400,
+              "message": "Missing required parameters, code = \"invalidParameter\"",
+              "responseModel": "ErrorResponse"
+            },
+            {
+              "code": 500,
+              "message": "Unexpected internal error, code = \"internalError\"",
+              "responseModel": "ErrorResponse"
+            },
+            {
+              "code": 503,
+              "message": "Service temporarily unavailable and retryable condition, code = \"serviceTemporarilyUnavailable\"",
+              "responseModel": "ErrorResponse"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "models": {
+    "Store": {
+      "id": "Store",
+      "description": "",
+      "required": [
+        "storeName"
+      ],
+      "properties": {
+        "storeName": {
+          "type": "string",
+          "description": "name of app store, supported app stores are \"apple\", \"android\", \"integrator\", \"samsung\", \"web\", and \"windows\""
+        },
+        "storeRef": {
+          "type": "string",
+          "description": "store specific id assigned to the product by store. If set, this store specific id will be used to validate against the store receipt"
+        },
+        "hideFromStore": {
+          "type": "boolean",
+          "description": "if set to true, the product for the store will be hidden from the viewer"
+        }
+      }
+    },
+    "Product": {
+      "id": "Product",
+      "description": "",
+      "required": [
+        "label",
+        "id"
+      ],
+      "properties": {
+        "stores": {
+          "type": "array",
+          "description": "targeted app stores of the product",
+          "items": {
+            "$ref": "Store"
+          }
+        },
+        "contentIds": {
+          "type": "array",
+          "description": "read-only property, list of content ids included in this product. A content id is set when the corresponding content is published.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "availabilityDate": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The date product is available for purchase from app stores. The availability date cannot be set in the future. Setting it a later date than previously set may cause users to lose standard subscription entitlements and vice versa. This value is independent of the availability date timezone, i.e. when using a different timezone to enter the same absolute point in time, this value wouldn't change."
+        },
+        "availabilityDateTimezone": {
+          "type": "string",
+          "description": "The timezone used when setting the availability date. Only used in the UI, the availability date itself remains a unix timestamp that is independent of the time zone."
+        },
+        "coverDate": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The date sent to integrator for device direct entitlement to the product"
+        },
+        "isFree": {
+          "type": "boolean",
+          "description": "Flag to indicate whether product is free. Default is false."
+        },
+        "lastModifiedDate": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Last modified date of the product record"
+        },
+        "label": {
+          "type": "string",
+          "description": "Short description of the product (up to 100 characters)"
+        },
+        "description": {
+          "type": "string",
+          "description": "Detailed description of the product (up to 1000 characters)"
+        },
+        "isDistributionRestricted": {
+          "type": "boolean",
+          "description": "Flag to indicate if product is for restricted distribution. Default is false."
+        },
+        "id": {
+          "type": "string",
+          "description": "An identifier that is matched against product IDs in receipts"
+        }
+      }
+    },
+    "ErrorResponse": {
+      "id": "ErrorResponse",
+      "description": "",
+      "required": [
+        "code",
+        "message"
+      ],
+      "properties": {
+        "code": {
+          "$ref": "ErrorStatus",
+          "description": "A short, constant string indicating the nature of the error",
+          "enum": [
+            "httpError",
+            "internalError",
+            "invalidParameter",
+            "invalidRequest",
+            "missingParameter",
+            "resourceNotFound",
+            "serviceTemporarilyUnavailable",
+            "updateResourceConflict",
+            "unexpectedValue"
+          ]
+        },
+        "message": {
+          "type": "string",
+          "description": "A human-readable explanation of the error, providing more details"
+        }
+      }
+    }
+  }
+}
