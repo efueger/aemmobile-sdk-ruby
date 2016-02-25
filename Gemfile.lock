@@ -13,7 +13,11 @@ GEM
     builder (3.2.2)
     codeclimate-test-reporter (0.4.8)
       simplecov (>= 0.7.1, < 1.0.0)
+<<<<<<< Updated upstream
     coderay (1.1.1)
+=======
+    coderay (1.1.0)
+>>>>>>> Stashed changes
     crack (0.4.3)
       safe_yaml (~> 1.0.0)
     docile (1.1.5)
@@ -37,9 +41,15 @@ GEM
       json (~> 1.8)
       multi_xml (>= 0.5.2)
     json (1.8.3)
+<<<<<<< Updated upstream
     listen (3.0.6)
       rb-fsevent (>= 0.9.3)
       rb-inotify (>= 0.9.7)
+=======
+    listen (3.0.5)
+      rb-fsevent (>= 0.9.3)
+      rb-inotify (>= 0.9)
+>>>>>>> Stashed changes
     lumberjack (1.0.10)
     method_source (0.8.2)
     minitest (5.8.4)
@@ -49,7 +59,11 @@ GEM
       minitest (>= 5.0)
       ruby-progressbar
     multi_xml (0.5.5)
+<<<<<<< Updated upstream
     nenv (0.3.0)
+=======
+    nenv (0.2.0)
+>>>>>>> Stashed changes
     notiffany (0.0.8)
       nenv (~> 0.1)
       shellany (~> 0.0)
@@ -59,12 +73,20 @@ GEM
       slop (~> 3.4)
     rake (10.5.0)
     rb-fsevent (0.9.7)
+<<<<<<< Updated upstream
     rb-inotify (0.9.7)
+=======
+    rb-inotify (0.9.5)
+>>>>>>> Stashed changes
       ffi (>= 0.5.0)
     ruby-progressbar (1.7.5)
     safe_yaml (1.0.4)
     shellany (0.0.1)
+<<<<<<< Updated upstream
     simplecov (0.11.2)
+=======
+    simplecov (0.11.1)
+>>>>>>> Stashed changes
       docile (~> 1.1.0)
       json (~> 1.8)
       simplecov-html (~> 0.10.0)
